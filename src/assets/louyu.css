@@ -1,0 +1,139 @@
+.Box-top{
+    background-color: #fff;
+    position: relative;
+}
+.demo-input-suffix{
+    overflow: hidden;
+}
+.el-input{
+    width: calc(100% - 490px);
+    float: left;
+}
+.el-input input{
+    border: 0;
+    height: 50px;
+    line-height: 50px;
+    font-size: 12px;
+    padding-left: 64px !important;   
+}
+.el-input span i{
+    width: 92px;
+    font-size: 16px;
+    color: #6f7e95;
+}
+.el-button{
+    float: right;
+    font-size: 14px;
+    text-align: center;
+    color: #585858;
+    border-radius: 4px;
+    border: .6px solid rgba(130,134,146,.6);
+    margin-top: 10px;
+    margin-right: 20px;
+    padding: 0 15px;
+    height: 28px;
+}
+.ly-msg{
+    display: inline-block;
+    background-color: #fff;
+    padding: 20px 20px 0;
+    overflow: hidden;
+}
+.ly-msg li{
+    float: left;
+    min-width: 105px;
+}
+.ly-msg li .li-top{
+    height: 25px;
+    line-height: 25px;
+    color: #828692;
+    font-size: 12px;
+}
+.ly-msg li .li-top span:nth-child(1){
+    float: left;
+}
+.ly-msg li .li-top span:nth-child(2){
+    float: right;
+    padding-left: 7px;
+}
+.ly-msg li .li-top i{
+    margin-left: 6px;
+    color: #4494f0;
+    font-size: 16px;
+}
+.ly-msg li .li-bottom{
+    display: inline-block;
+    height: 56px;
+    line-height: 48px;
+    font-size: 24px;
+    color: #353b4b;
+}
+.ly-msg li .li-left{
+    color: #353b4b;
+    display: inline-block;
+    margin-left: 10px;
+    padding-right: 14px;
+    font-size: 14px;
+}
+.ly-msg li .li-right{
+    width: 2px;
+    height: 35px;
+    background-color: #edeef0;
+    display: inline-block;
+    margin-top: 16px;
+}
+.ly-msg li:last-child .li-right{
+    background-color: #fff !important;
+}
+.Box-top .jl{
+    position: absolute;
+    right: 74px;
+    top: 72px;
+    cursor: pointer;
+}
+.Box-bottom{
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.table-header{
+    font-size: 14px;
+    height: 50px;
+    background: #fff;
+    padding: 0 20px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-bottom: 0px;
+}
+.table-header i{
+    font-size: 16px;
+}
+.el-table__header-wrapper{
+    border-bottom: 1px solid #e0e0e0;  
+}   
+.el-table thead tr th{
+    font-size: 12px;
+    color: #7085a1;
+    font-weight: normal; 
+}
+.el-table thead tr th .cell{
+    padding: 0 20px;
+    height: 36px;
+    line-height: 36px;
+}
+.el-table tbody tr{
+    padding: 10px 0;
+    background: #fff;
+    color: #6b809f;
+    font-size: 14px
+}
+.el-table tbody tr td .cell{
+    padding: 0 20px;
+    height: 36px;
+    line-height: 36px;
+}
