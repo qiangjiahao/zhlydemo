@@ -42,6 +42,15 @@
           prop="dw"
           label="单位"
           width="178">
+            <template slot-scope="scope">
+              {{scope.row.dw}}
+              <div class="fydetails-div">
+                <el-button plain class="fydetails-button" @click.stop="open01()"><i class="el-icon-plus"></i>合同</el-button>
+                <htDialog ref="openOrder" v-if="openOrderVisible" :visible.sync="openOrderVisible"></htDialog>
+                <el-button plain class="fydetails-button" @click.stop="open02()"><i class="el-icon-plus"></i>编辑房源</el-button>
+
+              </div>                           
+            </template>  
         </el-table-column>
         <el-table-column
           prop="mj"
@@ -72,10 +81,17 @@
 </template>
 
 <script>
+import htDialog from '@/components/hetongAdmin/htDialog'
+import fyDialog from '@/components/fangyuanAdmin/fyDialog'
+
 export default {
   name: 'fy01',
+  components:{
+    htDialog,fyDialog
+  },
   data () {
     return {
+      openOrderVisible: false,
       tableData: [{
           name: '003',
           lc: '01',
@@ -123,6 +139,9 @@ export default {
   methods: {
     filterTag(value, row) {
       return row.tag === value;
+    },
+    open01(){
+      this.openOrderVisible= true;
     }
   }
 }

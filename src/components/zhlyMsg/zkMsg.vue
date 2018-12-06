@@ -1,4 +1,5 @@
 <template>
+  <div class="zkMsg">
     <el-row class="menu">
       <el-col :span="4">
         <div class="grid-content bg-purple">
@@ -13,6 +14,7 @@
         </div>
       </el-col>
     </el-row>
+  </div>
 </template>
 <script>
 export default {
@@ -20,9 +22,12 @@ export default {
 }
 </script>
 <style>
+.zkMsg{
+  width: 100%;
+  background-color: #fff;
+}
 .menu {
   background: rgb(255, 255, 255);
-  width: 100%;
   padding: 7px 20px;
   text-align: left;
   max-width: 900px;

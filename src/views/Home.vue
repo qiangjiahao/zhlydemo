@@ -2,7 +2,7 @@
    
   <div style="width:100%;height:100%;">
     <!-- 返回顶部-->
-      <BackTop   id="to-top-btn" :height="20"></BackTop>   
+    <BackTop   id="to-top-btn" :height="20"></BackTop>   
        <el-container style="width:100%;height:100%;">
             <!--头部-->
 <el-header class="el-header" style="height:51px;line-height:51px;">

@@ -79,7 +79,7 @@
                 width="168">
                 <template slot-scope="scope">
                     {{scope.row.cs}}
-                    <sxly></sxly>                                  
+                    <sxlyDialog></sxlyDialog>                                  
                 </template>  
                 </el-table-column>
                 <el-table-column
@@ -96,12 +96,12 @@
 import Lydialog from '@/components/louyuAdmin/Dialog'
 import sjpzdialog from '@/components/louyuAdmin/Dialogsjpz'
 import lyMsg from '@/components/zhlyMsg/lyMsg'
-import sxly from '@/components/louyuAdmin/sxly' //上下楼宇弹窗切换
+import sxlyDialog from '@/components/louyuAdmin/sxlyDialog' //上下楼宇弹窗切换
 
 export default {
     name:'louyuAdmin',
     components:{
-        Lydialog,sjpzdialog,lyMsg,sxly
+        Lydialog,sjpzdialog,lyMsg,sxlyDialog
     },
     data(){
         return{
@@ -272,18 +272,6 @@ export default {
     width: 92px;
     font-size: 16px;
     color: #6f7e95;
-}
-.ly-button{
-    float: right;
-    font-size: 14px;
-    text-align: center;
-    color: #585858;
-    border-radius: 4px;
-    border: .6px solid rgba(130,134,146,.6);
-    margin-top: 10px;
-    margin-right: 20px;
-    padding: 0 15px;
-    height: 28px;
 }
 .ly-content{
     display: inline-block;

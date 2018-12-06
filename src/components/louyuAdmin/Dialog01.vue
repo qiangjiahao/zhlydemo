@@ -201,5 +201,44 @@ export default {
     }
 }
 </script>
+<style>
+.form-01 .el-form-item{
+    width: 100%;
+}
+.form-02 .el-form-item{
+    float: left;
+    width: calc(34% - 18px);
+}
+.form-03 .el-form-item{
+    float: left;
+    width: calc(50% - 9px);
+}
+.form-03 .el-date-editor{
+    width: 100%;
+}
+.form-03 .el-date-editor span{
+   left: auto;
+   right: 6px;
+}
+.form-04 .el-form-item{
+    float: left;
+    width: calc(34% - 9px);
+}
+.form-04 .form-04-item label{
+    color: #fff !important;
+}
+.form-04 .el-form-item .el-checkbox__input{
+    position: relative;
+    left: 34px;
+    top: 2px;
+}
+.form-04 .el-form-item .el-checkbox__label{
+    font-size: 12px;
+}
+.form-04 .el-form-item .el-checkbox__label i{
+    font-size: 14px;
+}
+</style>
+
 
 

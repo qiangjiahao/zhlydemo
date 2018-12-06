@@ -1,10 +1,10 @@
 <template>
     <div class="zs">
         <div class="tabs">
-            <div class="tab" v-for="(item,i) in zsSub" :key="i" @click="toggleTab(item.sub,i)" :class="{tabclass:i == nowIndex}">
+            <div class="tab" v-for="(item,i) in zsSub" :key="i" @click="toggleTab(item.sub,item.dialog,i)" :class="{tabclass:i == nowIndex}">
                 {{item.name}}
             </div>
-            <el-button icon="el-icon-plus">客户</el-button>
+            <zsOneDialog :is="isdialog"></zsOneDialog>
         </div>
         
         <!-- 子组件，显示不同的 tab
@@ -16,25 +16,29 @@
 <script>
 import zsOne from '@/components/zhaoshangAdmin/zsOne'
 import zsTwo from '@/components/zhaoshangAdmin/zsTwo'
+import zsOneDialog from '@/components/zhaoshangAdmin/zsOneDialog'
+import zsTwoDialog from '@/components/zhaoshangAdmin/zsTwoDialog'
 
 export default {
     name:'Zs',
     components:{
-        zsOne,zsTwo
+        zsOne,zsTwo,zsOneDialog,zsTwoDialog
     },
     data(){
         return{
             currentTab:zsOne,
             zsSub:[
-                {name:"客户管理",sub:"zsOne"},
-                {name:"我的渠道",sub:"zsTwo"}
+                {name:"客户管理",sub:"zsOne",dialog:"zsOneDialog"},
+                {name:"我的渠道",sub:"zsTwo",dialog:"zsTwoDialog"}
             ],
-            nowIndex: 0
+            nowIndex: 0,
+            isdialog:zsOneDialog
         }
     },
     methods:{
-        toggleTab:function (tab,i){
-            this.currentTab = tab; // tab 为当前触发标签页的组件名
+        toggleTab:function (sub,dialog,i){
+            this.currentTab = sub; // tab 为当前触发标签页的组件名
+            this.isdialog = dialog;
             this.nowIndex = i;
         }
     }
@@ -66,15 +70,5 @@ export default {
 .zs .tabs .tabclass{
     border-bottom: 2px solid #108ee9;
     color: #108ee9;
-}
-.zs .tabs .el-button{
-    float: right;
-    color: #585858;
-    border-radius: 4px;
-    border: .6px solid rgba(130,134,146,.6);
-    margin-top: 6px;
-    padding: 0 15px;
-    font-size: 14px;
-    height: 28px;
 }
 </style>

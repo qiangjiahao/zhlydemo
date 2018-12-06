@@ -1,14 +1,13 @@
 <template>
-<div class="zk-nav">
-   <el-menu  :default-active="activeIndex" class="el-menu-demo zk-ul" mode="horizontal" @select="handleSelect">
-  <el-menu-item index="1" class="tab" @click="toggleTab('zk-list')">租客列表</el-menu-item>
-  <!-- <el-menu-item index="../components/zk-detail" class="tab" @click="toggleTab('zk-detail')">租客分析</el-menu-item> -->
-</el-menu>
-<!-- 子组件，显示不同的 tab
- is 特性动态绑定子组件
- keep-alive 将切换出去的组件保留在内存中 -->
-<zkList :is="currentTab" keep-alive></zkList>
-</div>
+    <div class="zk-nav">
+    <el-menu  :default-active="activeIndex" class="el-menu-demo zk-ul" mode="horizontal" @select="handleSelect">
+    <el-menu-item index="1" class="tab" @click="toggleTab('zk-list')">租客列表</el-menu-item>
+    </el-menu>
+    <!-- 子组件，显示不同的 tab
+    is 特性动态绑定子组件
+    keep-alive 将切换出去的组件保留在内存中 -->
+    <zkList :is="currentTab" keep-alive></zkList>
+    </div>
 </template>
 <script>
 

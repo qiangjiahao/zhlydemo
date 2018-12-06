@@ -17,7 +17,7 @@
                     <el-input v-model="form.lcmj" disabled="disabled"></el-input>
                 </el-form-item>
             </div>
-            <div class="tjly"><button @click="addlcs('form')"><i class="el-icon-plus"></i>添加楼层</button></div>
+            <div class="tjly"><el-button plain @click="addlcs('form')"><i class="el-icon-plus"></i>添加楼层</el-button></div>
         </div>
         <div class="form-bottom">
             <ul class="bottom-ul">
@@ -109,5 +109,50 @@ export default {
     }
 }
 </script>
+<style>
+.form-06 .el-form-item:nth-of-type(1){
+    width: 184px;
+}
+.form-06 .el-form-item:nth-of-type(2){
+    width: 254px;
+}
+.form-06 .el-form-item:nth-of-type(3){
+    width: 118px;
+}
+.form-07 .el-form-item{
+    width: 30%;
+    margin-bottom: 10px;
+}
+.form-07 .button-07{
+    padding: 0;
+    border: none;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+}
+.form-07 .button-07 i{
+    position: relative;
+    top: -10px;
+}
+.tjly{
+    text-align: center;
+    font-size: 14px;
+    margin-top: 18px;
+}
+.tjly button{
+    padding: 8px 20px;
+    border-radius: 2px;
+    color: #4494f0;
+    text-align: center;
+    border: 1px solid #4494f0;
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+</style>
+
 
 

@@ -1,17 +1,21 @@
 <template>
-    <div>
-        <el-button class="ly-button" icon="el-icon-plus" @click="dialogFormVisible = true" plain>楼宇</el-button>
-        <el-dialog title="编辑楼宇" :visible.sync="dialogFormVisible" class="ly-dialog" width="700px" top="100px" center @close="gb">               
-            <el-menu class="el-menu-demo" mode="horizontal">
-                <el-menu-item v-for="(item,i) in lyformmsg" :key="i" :index="item.sub" :class="{itemtab:i === selectIndex}">{{item.msg}}</el-menu-item>
+    <div class="bjly">
+        <el-button plain class="bily-button" @click.stop="dialogFormVisible = true"><i class="el-icon-plus"></i>编辑楼宇</el-button>
+        <el-dialog title="编辑楼宇" :visible.sync="dialogFormVisible" class="bj-dialog" width="700px" top="100px" center :append-to-body="isbody"  @close="gb">               
+            <el-menu class="el-menu-demo" :default-active="activeIndex" mode="horizontal">
+                <el-menu-item v-for="(item,i) in lyformmsg" :key="i" :index="item.sub" @click="dj(i)" :class="{itemtab:i === selectIndex}">{{item.msg}}</el-menu-item>
             </el-menu>
-            <div class="menu-content">
-                <div class="menu-ul">
-                    <Dialog01 v-for="(item,index) in lyformmsg" :key="index" :is="item.sub" v-show="index===selectIndex"></Dialog01>
+            <div class="menu-ul">
+                <div class="menu-li">
+                    <Dialog01 v-for="(item,i) in lyformmsg" :key="i" :is="item.sub" v-show="i === selectIndex"></Dialog01>
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="clickLeft">{{footermsg}}</el-button>
+                <div class="bz">
+                    <el-button plain v-show="isshang" @click="shang">上一步</el-button>
+                    <el-button plain @click="xia" v-show="isxia">下一步</el-button>
+                </div>
+                <el-button type="primary">保存</el-button>
             </div>                  
         </el-dialog>
     </div>
@@ -24,18 +28,19 @@ import Dialog03 from '@/components/louyuAdmin/Dialog03'
 import Dialog04 from '@/components/louyuAdmin/Dialog04'
 
 export default {
-    name: 'Dialog',
+    name: 'sxly',
     components:{
         Dialog01,Dialog02,Dialog03,Dialog04
     },
     data(){
-        return{
+        return{          
             dialogFormVisible: false,
-            selectIndex:0,
-            footermsg: '保存&下一步',
+            isbody: true,
+            activeIndex: 'Dialog01',
             isRouterAlive:false,
-            i:0,
-            index: 0,
+            selectIndex:0,
+            isshang: false,
+            isxia:true,
             lyformmsg:[
                 {
                     msg: '详细信息',
@@ -57,42 +62,65 @@ export default {
         }
     },
     methods:{
-        clickLeft:function(){
-            if(this.selectIndex>2){ 
-                this.dialogFormVisible = false;                
-                this.footermsg= '保存&下一步';       
-                return
-              }
-            else if(this.selectIndex==2){
-                this.footermsg='保存'
-                this.selectIndex++; 
-                return
+        dj(i){
+            this.selectIndex=i;
+            if(i>2){
+                this.isxia = false;
+                this.isshang = true;
+            }else if(i<1){
+                this.isshang = false;               
+                this.isxia = true;
+            }else{
+                this.isxia = true;
+                this.isshang = true; 
             }
-            else{ 
-                this.selectIndex++;             
-            }          
-        },
+        },
         gb(){
-            this.selectIndex = 0; 
+            this.selectIndex=0;
+            this.isshang=false;
+            this.isxia=true;
+        },
+        xia(){
+            this.isshang = true;
+            if(this.selectIndex==2){
+                this.isxia = false;
+                this.isshang = true;
+                this.selectIndex++;
+            }
+            else{
+                this.selectIndex++;
+            }           
+        },
+        shang(){
+            this.isxia = true;
+            if(this.selectIndex==1){
+                this.isshang = false;               
+                this.selectIndex--;
+            }
+            else{
+                this.selectIndex--;
+            }
         }
     }
 }
 </script>
 
 <style>
-.ly-button{
-    float: right;
-    font-size: 14px;
-    text-align: center;
-    color: #585858;
-    border-radius: 4px;
-    border: .6px solid rgba(130,134,146,.6);
-    margin-top: 10px;
-    margin-right: 20px;
-    padding: 0 15px;
-    height: 28px;
+
+.Box-bottom .bjly{
+    position: absolute;   
+    left: -88px;
+    top: -4px;
+    display: none;
 }
-.ly-dialog .el-dialog__header{
+.Box-bottom .el-table__row:hover .bjly{
+    display: block;
+}
+.Box-bottom .bjly .bily-button{
+    padding: 6px 10px;
+}
+
+.bj-dialog .el-dialog__header{
     height: 50px;
     text-align: center;
     padding: 13px 20px;
@@ -102,45 +130,40 @@ export default {
     color: #1d2b3b;
     border-bottom: 1px solid #e9e9e9;
 }
-.ly-dialog .el-dialog__header .el-dialog__headerbtn{
-    top: 14px;
-}
-.ly-dialog .el-dialog__body{
+.bj-dialog .el-dialog__body{
     background-color: #f4f4f4;
     font-size: 12px;
     padding: 0;
 }
-.ly-dialog .el-dialog__body .el-menu-demo{
+.bj-dialog .el-dialog__body .el-menu-demo{
     padding: 0 50px;
     border: 0;
     border-bottom: 1px solid #e9e9e9;
 }
-.ly-dialog .el-dialog__body .el-menu-demo .el-menu-item{
+.bj-dialog .el-dialog__body .el-menu-demo .el-menu-item{
     height: 40px;
     line-height: 41px;
     font-size: 14px;
     margin-right: 20px;
     padding: 0;
     width: auto;
-    color: rgba(0,0,0,.25);
     border-bottom: 2px solid #fff; 
-    cursor:not-allowed;
 }
-.ly-dialog .el-dialog__body .el-menu-demo .itemtab{
+.bj-dialog .el-dialog__body .el-menu-demo .itemtab{
     border-bottom: 2px solid #409EFF !important;
     color: #303133;
     cursor: pointer;
 }
-.ly-dialog .el-dialog__body .menu-content{
+.bj-dialog .el-dialog__body .menu-ul{
     padding: 20px;
     overflow: hidden;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul{
+.bj-dialog .el-dialog__body .menu-ul .menu-li{
     width: 100%;
     overflow: hidden;
     float: left;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .form-top{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .form-top{
     width: 100%;
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -148,11 +171,11 @@ export default {
     padding: 20px;
     box-sizing: border-box;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .form-public{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .form-public{
     display: flex;
     justify-content: space-between;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form label{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form label{
     width: 100%;
     min-height: 22px;
     font-size: 12px;
@@ -160,41 +183,49 @@ export default {
     line-height: 18px;
     display: flex;
     justify-content: space-between;
-    text-align: left !important;
+    text-align: left;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .el-form-item__content{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-form-item__content{
     line-height: 30px;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .el-form-item__content .form-03-span{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-form-item__content .form-03-span{
     position: absolute;
     right: 10px;
     top: 22px;
     color: #353b4b;
     font-size: 14px;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .el-select{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-select{
     width: 100%;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form input{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form input{
     height: 30px;
     line-height: 30px;
     display: block;
     font-size: 12px;
     padding: 0 8px;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .el-input__icon{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-input__icon{
     line-height: 30px;
     font-size: 12px;
     width: 18px;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul .el-form .el-input__inner:hover{
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-input__inner:hover{
     border-color: #49a9ee;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul  .el-form .el-input__inner[disabled]:hover{
+.bj-dialog .el-dialog__body .menu-ul .menu-li  .el-form .el-input__inner[disabled]:hover{
     border-color: #e2e2e2;
 }
-.ly-dialog .el-dialog__body .menu-content .menu-ul  .el-form .el-input__inner:focus{
+.bj-dialog .el-dialog__body .menu-ul .menu-li  .el-form .el-input__inner:focus{
     box-shadow: 0 0 0 2px rgba(16,142,233,.2);
+}
+.el-popper[x-placement^=bottom]{
+    margin-top: 6px;
+}
+.el-popper .el-select-dropdown__item{
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
 }
 
 .form-bottom{
@@ -261,12 +292,17 @@ export default {
     padding: 20px;
     box-sizing: border-box;
 }
-.ly-dialog .el-dialog__footer{
+.bj-dialog .el-dialog__footer{
     height: 60px;
     padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     border-top: 1px solid #e9e9e9;
+}
+.bj-dialog .el-dialog__footer .dialog-footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 </style>

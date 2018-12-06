@@ -1,5 +1,5 @@
 <template>
-    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"  label-position="left" label-width="0px" class="demo-ruleForm login-container">
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"  label-position="left" label-width="0px" class="demo-ruleForm login-container login">
         <el-form-item prop="username">
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <el-input type="text" v-model="ruleForm2.username" autocomplete="off" placeholder="用户名"></el-input>
@@ -47,8 +47,8 @@ export default {
     },
     methods:{
         login(){   
-     var tel = this.ruleForm2.username;
-      var pw = this.ruleForm2.userpass;
+        var tel = this.ruleForm2.username;
+        var pw = this.ruleForm2.userpass;
          Login({                    
                 tel: tel,                    
                 pw: pw             
@@ -76,10 +76,10 @@ export default {
 }
 </script>
 <style>
-  .el-form .el-form-item{
+  .login .el-form-item{
     position: relative;
   }
-  .el-form .el-form-item .fa{
+  .login .el-form-item .fa{
     position: absolute;
     left: 0;
     right: 0;
@@ -91,7 +91,7 @@ export default {
     text-align: center;
     z-index: 9;
   }
-  .el-form .el-form-item .el-input__inner{
+  .login .el-form-item .el-input__inner{
       padding-left: 34px;
   }
 </style>

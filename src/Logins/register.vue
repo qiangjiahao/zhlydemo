@@ -165,17 +165,16 @@ export default {
   
 </script>
 <style>
-    .log-reg .tab .tab-content .el-form .yzm .el-input{
-      width: calc(100% - 126px);
-      float: left;
-  }
-  .log-reg .tab .tab-content .el-form .el-form-item:nth-of-type(2) .hqyzm{
-      float: right;
-      width: 116px;
-      background-color: #409EFF;
-      text-align: center;
-      color: #fff;
-      /* cursor: pointer; */
-      padding: 12px 0;
-  }
+    .yzm .el-input{
+        width: calc(100% - 126px);
+        float: left;
+    }
+    .hqyzm{
+        float: right;
+        width: 116px;
+        background-color: #409EFF;
+        text-align: center;
+        color: #fff;
+        padding: 12px 0;
+    }
 </style>
