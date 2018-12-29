@@ -64,18 +64,18 @@
             </div>
         </el-dialog>
         <el-dialog
-            :visible.sync="dialogVisible"
-            width="400px"
-            :modal="false"
-            center
-            class="sjpz-dialog02">
-            <div class="sjpz-dialog02-div">
-                <i class="el-icon-warning"></i>
-                <p>统计数据自定义成功！</p>
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
+        :visible.sync="dialogVisible"
+        width="400px"
+        :modal="false"
+        center
+        class="sjpz-dialog02">
+        <div class="sjpz-dialog02-div">
+            <i class="el-icon-warning"></i>
+            <p>统计数据自定义成功！</p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
         </el-dialog>
     </div>
 </template>
@@ -221,12 +221,14 @@ export default {
 .sjpz-dialog .sjpz-dia-txt-content .el-checkbox-button{
     margin-right: 12px;
 }
+.el-checkbox-button__inner{
+    border: 1px solid #d9d9d9;
+}
 .sjpz-dialog .sjpz-dia-txt-content .el-checkbox-button .el-checkbox-button__inner{
     padding: 6px 16px;
     font-size: 12px;
     border-radius: 4px;
     box-shadow: none;
-    border: 1px solid #d9d9d9;
 }
 .sjpz-dialog .dia-item{
     display: flex;

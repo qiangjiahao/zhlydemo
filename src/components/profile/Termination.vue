@@ -5,8 +5,9 @@
                 <el-row>
                 <el-col :span="24"><div class="grid-content bg-purple-dark title-box">
                     <div class="header___a9lTT">
-                    <p>退租原因</p>
-                     <el-button icon="el-icon-plus"  class="ant-btn">操作</el-button>
+                    <p>{{tzyy}}</p>
+                     <el-button icon="el-icon-plus"  class="ant-btn" @click="open" plain>操作</el-button>
+                     <xgdialog v-if="cz" :visible.sync="cz" :title="ttt"></xgdialog>
                     </div>                    
                 </div></el-col>
                 </el-row>
@@ -34,8 +35,12 @@
     </div>
 </template>
 <script>
+import xgdialog from '@/components/profile/xgDialog'
 export default {
     name:'Termination',
+    components:{
+      xgdialog
+    },
     data() {
         return {
           tableData3: [{
@@ -50,7 +55,10 @@ export default {
           },{
               templName:'价格因素',
               operation:''
-          }]
+          }],
+          cz: false,
+          ttt: '',
+          tzyy: '退租原因'
         }
       },
             methods: {
@@ -71,6 +79,10 @@ export default {
             message: '已取消删除'
           });          
         });
+      },
+       open(){
+        this.cz=true;
+        this.ttt=this.tzyy;
       }
       }
     }

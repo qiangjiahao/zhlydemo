@@ -1,6 +1,6 @@
 <template>     
     <div> 
-        <el-dialog title="新增房源" :visible.sync="visible" class="fy-dialog" width="700px" top="100px" center :before-close="modalClose">               
+        <el-dialog title="新增房源" :visible.sync="visible" class="fy-dialog" width="700px" top="100px" center :before-close="modalClose" :append-to-body="true">               
             <div class="empty"></div> 
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
                 <div class="fyform">
@@ -109,6 +109,7 @@
             width="400px"
             :modal="false"
             center
+            :append-to-body="true"
             class="fy-dialog02">
             <div class="fy-dialog02-div">
                 <i class="el-icon-warning"></i>
@@ -122,6 +123,8 @@
             :visible.sync="dialogVisible02"
             width="400px"
             center
+            :append-to-body="true"
+            :modal="false"
             class="fy-dialog02">
             <div class="fy-dialog02-div">
                 <i class="el-icon-warning"></i>
@@ -248,7 +251,7 @@ export default {
                 }
             });
         },
-        gb01(formName){
+        gb01(formName){          
             this.dialogVisible01=false;       
             setTimeout(()=>{this.$emit('update:visible', false);this.$refs[formName].resetFields();},1000);                  
         },

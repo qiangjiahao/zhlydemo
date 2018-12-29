@@ -43,7 +43,7 @@
                             <span>北京市</span>,<span>市辖区</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="ckxq" @click="value1 = true" v-if="isif">查看详情</span>                              
-                            <Drawer :closable="true" v-model="value1" width="1000" class="ct">
+                            <Drawer :closable="true" v-model="value1" width="1000" class="ct" @on-close="aaa">
                                 <div slot="header" class="drawer-header">楼宇信息</div>
                                 <bjDialog></bjDialog>
                                 <div class="xx">
@@ -163,8 +163,8 @@ export default {
         }
     },
     methods:{
-        back(){
-            this.$router.go(-1);
+        back(){       
+            this.$router.push("/");
         },
         qh(sub,i){
             this.isMsg=sub;
@@ -175,6 +175,9 @@ export default {
                 this.isif=true;
                 this.islyDialog=true;
             }
+        },
+        aaa(){
+
         }
     },
     mounted () {

@@ -5,75 +5,94 @@
                 <el-row>
                 <el-col :span="24"><div class="grid-content bg-purple-dark title-box">
                     <div class="header___a9lTT">
-                    <p>行业管理</p>
-                     <el-button icon="el-icon-plus"  class="ant-btn">行业</el-button>
+                    <p>{{hygl}}</p>
+                     <el-button icon="el-icon-plus"  class="ant-btn" @click="open" plain>行业</el-button>
+                     <xgdialog v-if="hytag" :visible.sync="hytag" :title="ttt"></xgdialog>
                     </div>                    
                 </div></el-col>
                 </el-row>
             </div>
             <!-- 表格 -->
             <div class="ant-table-wrapper">
-                   <el-table
-      :data="tableData3"
-      style="width: 100%;background:#fafafa">
-      <el-table-column
-        prop="templName"
-        label="行业管理"
-        width="1300px">
-      </el-table-column>
-      <el-table-column
-        prop="operation"
-        label="操作">
-        <template slot-scope="scope">
-        <span @click="handleDelete(scope.$index, scope.row)" style="cursor:pointer">删除</span>
-      </template>
-      </el-table-column>
-    </el-table>
+              <el-table
+                :data="tableData3"
+                style="width: 100%;background:#fafafa">
+                <el-table-column
+                  prop="name"
+                  label="行业管理"
+                  width="1300px">
+                </el-table-column>
+                <el-table-column
+                  prop="operation"
+                  label="操作">
+                  <template slot-scope="scope">
+                  <span @click="handleDelete(scope.$index, scope.row)" style="cursor:pointer">删除</span>
+                  <bjdialog :txt="hygl" :bjid="scope.row.id" :name="scope.row.name"></bjdialog>
+                </template>
+                </el-table-column>
+              </el-table>
             </div>
          </div>
     </div>
 </template>
 <script>
+import { Acquiretenantindustry } from '@/axios/api' //获取租客行业
+import { Deletetenantindustry } from '@/axios/api' //删除租客行业
+
+import xgdialog from '@/components/profile/xgDialog'
+import bjdialog from '@/components/profile/bjDialog'
+
 export default {
     name:'sustomIndustry',
+    inject: ['reload'],
+    components:{
+      xgdialog,bjdialog
+    },
     data() {
         return {
-          tableData3: [{
-            templName: '金融',
-            operation: '',
-          }, {
-            templName: '贸易流通',
-            operation: '',
-          },{
-              templName: '服务机构',
-            operation: '', 
-          },{
-              templName:'电商服务',
-              operation:''
-          }]
+          tableData3: [],
+          hytag: false,
+          ttt: '',
+          hygl: '行业管理'
         }
       },
-            methods: {
-      handleDelete(index, row) {
-        console.log(index, row);
-        this.$confirm('确认删除, 是否继续?', '提示', {
+      methods: {
+       handleDelete(index, row) {
+          this.$confirm('确认删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          Deletetenantindustry({   
+            id: row.id                                      
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            });
+            this.reload();
+          }); 
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });          
         });
+      },
+       open(){
+        this.hytag=true;
+        this.ttt=this.hygl;
       }
-      }
+      },
+      mounted(){
+        Acquiretenantindustry({                                         
+        }).then(res => {
+          if (res.flag == 0) {
+            this.tableData3=res.data;
+          }
+        });
     }
+  }
 </script>
 
 <style scoped>

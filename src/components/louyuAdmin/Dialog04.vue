@@ -1,4 +1,5 @@
 <template>
+<div>
     <el-form :model="form">               
         <div class="dia04-top">
             <div class="dia04-top-div" @click="addsrmb"><i class="el-icon-plus"></i>收入目标</div>
@@ -21,6 +22,10 @@
             </div>
         </div>
     </el-form>
+    <div class="xyb">
+        <el-button  type="primary" @click="fs">保存04</el-button>
+    </div>    
+</div>
 </template>
 
 <script>
@@ -36,6 +41,7 @@ export default {
             srmbs:[
 
             ],
+            selectIndex: 4
         }
     },
     methods:{
@@ -49,54 +55,13 @@ export default {
             if(index !== -1){
                 this.srmbs.splice(index,1);
             }
+        },
+        fs(){
+            this.$emit("fsval",this.selectIndex);
         }
     }
 }
 </script>
-<style>
-/* Dialog04 */
-.dia04-top{
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.dia04-top .dia04-top-div{
-    float: right;
-    margin-top: 10px;
-    padding: 1px 8px;
-    border: 1px solid #828692;
-    border-radius: 2px;
-    color: #828692;
-    font-size: 12px;
-    opacity: .6;
-    cursor: pointer;
-}
-.dia04-botton {
-    height: 900px;
-    overflow: auto;
-}
-.form-13 .el-form-item{
-    width: calc(50% - 10px);
-}
-.form-13 .el-form-item:nth-of-type(1) .el-input{
-    width: calc(50% - 10px);
-}
-.form-13 .el-form-item:nth-of-type(1) .el-input:first-child{
-    float: left;
-}
-.form-13 .el-form-item:nth-of-type(1) .el-input:last-child{
-    float: right;
-}
-.dia04-botton .el-icon-close{
-    position: absolute;
-    right: 20px;
-    font-size: 16px;
-    top: 14px;
-    z-index:999;
-    font-weight: bold;
-    cursor: pointer;
-}
-</style>
-
 
 
 

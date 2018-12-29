@@ -23,8 +23,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex); 
-const ADD_COUNT = 'ADD_COUNT';  //用常量代替事件类型。使代码更清晰。
-const REMOVE_COUNT = 'REMOVE_COUNT';
+const ADD_COUNT = 'ADD_COUNT';  //用常量代替事件类型。使代码更清晰。 //登录
+const REMOVE_COUNT = 'REMOVE_COUNT';  //退出登录
+const ADD_ITEMS = 'ADD_ITEMS'   //点击集合取得选中列表
+const ADD_DATEILSID = 'ADD_DATEILSID'  //点击租客编辑获取id进入详情弹窗
 // 注册状态管理全局参数
 export default new Vuex.Store({
   state:{
@@ -32,7 +34,9 @@ export default new Vuex.Store({
       tel:'',
       pw:'',
       id:''
-    }
+    },
+    items : [],
+    dateilsid : 0
   },
   mutations: {
     //写法与getters相类似
@@ -46,6 +50,13 @@ export default new Vuex.Store({
     [REMOVE_COUNT] (state, user){
       sessionStorage.removeItem('user',JSON.stringify(user));
       state.user = user
+    },
+    [ADD_ITEMS] (state ,items) {
+      // state.items items
+      state.items.push(items)
+    },
+    [ADD_DATEILSID] (state,dateilsid){
+      state.dateilsid = dateilsid  //租客按钮进入新建还是编辑的判断
     }
   }
 })

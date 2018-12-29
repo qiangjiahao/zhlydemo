@@ -5,49 +5,57 @@
                 <el-row>
                 <el-col :span="24"><div class="grid-content bg-purple-dark title-box">
                     <div class="header___a9lTT">
-                    <p>租客标签</p>
-                     <el-button icon="el-icon-plus"  class="ant-btn">标签</el-button>
+                    <p>{{zkbq}}</p>
+                     <el-button icon="el-icon-plus"  class="ant-btn" @click="open" plain>标签</el-button>
+                     <xgdialog v-if="zktag" :visible.sync="zktag" :title="ttt"></xgdialog>
                     </div>                    
                 </div></el-col>
                 </el-row>
             </div>
             <!-- 表格 -->
             <div class="ant-table-wrapper">
-                 <template>
-    <el-table
-      :data="tableData"
-      style="width: 100%;background:#fafafa">
-      <el-table-column
-        prop="templName"
-        label="标签名"
-        width="1300px">
-      </el-table-column>
-      <el-table-column
-        prop="operation"
-        label="操作">
-        <template slot-scope="scope">
-        <span  @click="handleDelete(scope.$index, scope.row)" style="cursor:pointer">删除</span>
-         <span @click="handleEdit(scope.$index,scope.row)" style="cursor:pointer;padding-left:10px">编辑</span>   
-      </template>
-      </el-table-column>
-    </el-table>
-  </template>
+              <template>
+                <el-table
+                  :data="tableData"
+                  style="width: 100%;background:#fafafa">
+                  <el-table-column
+                    prop="name"
+                    label="标签名"
+                    width="1300px">
+                  </el-table-column>
+                  <el-table-column
+                    prop="operation"
+                    label="操作">
+                    <template slot-scope="scope">
+                    <span  @click="handleDelete(scope.$index, scope.row)" style="cursor:pointer">删除</span>
+                    <bjdialog :txt="zkbq" :bjid="scope.row.id" :name="scope.row.name"></bjdialog>
+                  </template>
+                  </el-table-column>
+                </el-table>
+              </template>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { Listtenantlabels } from '@/axios/api' //租客标签列表
+import { Removetenantlabel } from '@/axios/api' //删除租客标签
+
+import xgdialog from '@/components/profile/xgDialog'
+import bjdialog from '@/components/profile/bjDialog'
+
 export default {
     name:'tenantTag',
+    inject: ['reload'],
+    components:{
+      xgdialog,bjdialog
+    },
      data() {
         return {
-          tableData: [{
-            templName: '国企',
-            operation: '',
-          },{
-              templName: '百强',
-            operation: '', 
-          }]
+          tableData: [],
+          zktag: false,
+          ttt: '',
+          zkbq: '租客标签'
         }
       },
        methods: {
@@ -55,25 +63,40 @@ export default {
         console.log(index, row);
       },
       handleDelete(index, row) {
-        console.log(index, row);
           this.$confirm('确认删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          Removetenantlabel({   
+            id: row.id                                      
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            });
+            this.reload();
+          }); 
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });          
         });
+      },
+       open(){
+        this.zktag=true;
+        this.ttt=this.zkbq;
       }
+    },
+    mounted(){
+      Listtenantlabels({                                         
+      }).then(res => {
+        if (res.flag == 0) {
+          this.tableData=res.data;
+        }
+      });
     }
-
 }
 </script>
 <style scoped>

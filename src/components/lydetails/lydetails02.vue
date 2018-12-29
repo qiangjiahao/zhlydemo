@@ -3,7 +3,7 @@
         <div class="fy-public">
             <el-menu :default-active="isselect" class="el-menu-demo" mode="horizontal">
                 <el-menu-item v-for="(item,i) in fy_nav" :key="i" :index="item.sub" @click="fytabs(item.sub)">{{item.navItem}}</el-menu-item>
-                <el-button icon="el-icon-plus">房源</el-button>
+                <el-button icon="el-icon-plus" plain>房源</el-button>
             </el-menu>
             <el-input
                 placeholder="搜索房号"

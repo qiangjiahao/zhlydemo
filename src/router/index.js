@@ -2,7 +2,6 @@
 import Vue from 'vue' //引入vue
 import Router from 'vue-router' //引入路由 
 import { Message } from 'element-ui'
-import { store } from '@/stroe/stroe'
 import logins from '@/Logins/logins'//登录注册
 import forget from '@/Logins/forget'
 import Home from '@/views/Home'  //首页
@@ -50,34 +49,36 @@ const routes  =  [
     meta: {
       requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
     },
+    redirect: "/jh",
     children:[
       {
-        path:'/', //集合
+        path:'jh', //集合
         name:'Jh',
         component:Jh,
+        redirect: "/louyuAdmin",
         children:[
           {
-            path:'/',   //楼宇管理
+            path:'/louyuAdmin',   //楼宇管理
             name:'louyuAdmin',
             component:louyuAdmin
           },
           {
-          path:'fangyuanAdmin',   //房源管理
+          path:'/fangyuanAdmin',   //房源管理
           name:'fangyuanAdmin',
-          component:fangyuanAdmin
+          component:fangyuanAdmin,
           },
           {
-            path:'Zs',
-            name:'Zs',
-            component:Zs
+            path:'/Zs',
+            name:'Zs ',
+            component:Zs 
           },
           {
-            path:'Zk',
+            path:'/Zk',
             name:'Zk',
             component:Zk
           },
           {
-            path:'Ht',
+            path:'/Ht',
             name:'Ht',
             component:Ht
           }
@@ -135,7 +136,7 @@ const routes  =  [
       { path: '/main', component: Internal, name: 'Internal'}, //内部管理
       { path:'/accountSetting',component:accountSetting, name:'accountSetting'}, //账户设置
       { path:'/fyTag',component:fyTag, name:'fyTag'}, //房源标签
-      { path:'/htTag',component:htTag, name:'htTag'},
+      { path:'/htTag',component:htTag, name:'htTag'},  //
       { path:'/Termination',component:Termination, name:'Termination'},
       { path:'/CostTypeTable',component:CostTypeTable, name:'CostTypeTable'},
       { path:'/tenantTag',component:tenantTag, name:'tenantTag'},

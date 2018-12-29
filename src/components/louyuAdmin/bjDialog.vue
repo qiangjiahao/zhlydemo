@@ -182,6 +182,9 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+.form-01 .el-form-item{
+    width: 100%;
+}
 .bj-dialog .el-dialog__body .menu-ul .menu-li .el-form label{
     width: 100%;
     min-height: 22px;
@@ -233,6 +236,251 @@ export default {
     height: 30px;
     line-height: 30px;
     font-size: 12px;
+}
+.form-02 .el-form-item{
+    float: left;
+    width: calc(34% - 18px);
+}
+.form-03 .el-form-item{
+    float: left;
+    width: calc(50% - 9px);
+}
+.form-03 .el-date-editor{
+    width: 100%;
+}
+.form-03 .el-date-editor span{
+   left: auto;
+   right: 6px;
+}
+.form-04 .el-form-item{
+    float: left;
+    width: calc(34% - 9px);
+}
+.form-04 .form-04-item label{
+    color: #fff !important;
+}
+.form-04 .el-form-item .el-checkbox__input{
+    position: relative;
+    left: 34px;
+    top: 2px;
+}
+.form-04 .el-form-item .el-checkbox__label{
+    font-size: 12px;
+}
+.form-04 .el-form-item .el-checkbox__label i{
+    font-size: 14px;
+}
+
+
+/* Dialog02 */
+.form-06 .el-form-item:nth-of-type(1){
+    width: 184px;
+}
+.form-06 .el-form-item:nth-of-type(2){
+    width: 254px;
+}
+.form-06 .el-form-item:nth-of-type(3){
+    width: 118px;
+}
+.form-07 .el-form-item{
+    width: 30%;
+    margin-bottom: 10px;
+}
+.form-07 .button-07{
+    padding: 0;
+    border: none;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+}
+.form-07 .button-07 i{
+    position: relative;
+    top: -10px;
+}
+.tjly{
+    text-align: center;
+    font-size: 14px;
+    margin-top: 24px;
+}
+.tjly button{
+    padding: 5px 20px;
+    border-radius: 2px;
+    color: #4494f0;
+    text-align: center;
+    border: 1px solid #4494f0;
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Dialog03 */
+.dia03-txt{
+    padding: 10px 20px;
+    background: transparent;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a2838;
+    box-sizing: border-box;
+}
+.form-08 .form-08-item{
+    width: 50%;
+}
+.form-08 .form-08-div{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+.form-08 .form-08-div .el-form-item{
+    width: calc(50% - 4px);  
+}
+.form-09 .el-form-item{
+    width: calc(50% - 10px);
+}
+.form-10 .form-10-item{
+    width: 50%;
+}
+.form-10 .form-10-item .form-10-item-div{
+    font-size: 12px;
+    color: #6b809f;
+    line-height: 22px;
+}
+.form-10 .form-10-item .form-10-item-div i{
+    font-size: 14px;
+    cursor: pointer;
+}
+.form-10 .form-10-div{
+    width: 50%;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.form-10 .form-10-div .el-form-item:nth-of-type(1){
+    width: 70%;
+}
+.form-10 .form-10-div .el-form-item:nth-of-type(2){
+    width: 30%;
+    margin-left: 8px;
+    box-sizing: border-box;
+}
+.form-10 .form-10-div .el-form-item:nth-of-type(2) label{
+    color: #fff !important;
+}
+.form-11 .el-form-item{
+    width: calc(50% - 10px);
+}
+.form-11 .el-form-item .el-form-item__content{
+    line-height: 22px !important;
+}
+.form-11 .el-form-item .form-11-div{
+    font-size: 12px;
+    color: #6b809f;
+}
+.form-11 .el-form-item i{
+    font-size: 14px;
+    cursor: pointer;
+}
+.form-12 .el-form-item{
+    width: calc(50% - 10px);
+}
+.form-12 .el-form-item .form-12-input{
+    width: calc(50% - 6px);
+    float: left;
+}
+.form-12 .el-form-item .el-select{
+    width: calc(50% - 6px) !important;
+    float: right;
+}
+.dia03-button .el-button{
+    margin-top: 20px;
+    font-size: 12px;
+    padding: 10px 20px;
+}
+.dia03-button .el-button:hover{
+    color: #409EFF;
+    border-color: #409EFF;
+    background-color: #ecf5ff;
+}
+.dia03-button .el-button:focus{
+    color: #409EFF;
+    border-color: #409EFF;
+    background-color: #ecf5ff;
+}
+.dia03-button .el-button i{
+    font-size: 14px;
+}
+.dia03-button .dia03-button-content{
+    position: relative;
+}
+.dia03-button .dia03-button-content .el-icon-close{
+    position: absolute;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 48px;
+    cursor: pointer;
+    z-index: 999;
+}
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-radio{
+    display: inline-block;
+    width: auto;
+    color: rgba(0,0,0,.65);
+    margin-left: 0;
+    margin-right: 16px;
+}
+.bj-dialog .el-dialog__body .menu-ul .menu-li .el-form .el-radio span{
+    font-size: 12px;
+}
+
+
+/* Dialog04 */
+.dia04-top{
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.dia04-top .dia04-top-div{
+    float: right;
+    margin-top: 10px;
+    padding: 1px 8px;
+    border: 1px solid #828692;
+    border-radius: 2px;
+    color: #828692;
+    font-size: 12px;
+    opacity: .6;
+    cursor: pointer;
+}
+.dia04-botton {
+    height: 900px;
+    overflow: auto;
+}
+.form-13 .el-form-item{
+    width: calc(50% - 10px);
+}
+.form-13 .el-form-item:nth-of-type(1) .el-input{
+    width: calc(50% - 10px);
+}
+.form-13 .el-form-item:nth-of-type(1) .el-input:first-child{
+    float: left;
+}
+.form-13 .el-form-item:nth-of-type(1) .el-input:last-child{
+    float: right;
+}
+.dia04-botton .el-icon-close{
+    position: absolute;
+    right: 20px;
+    font-size: 16px;
+    top: 14px;
+    z-index:999;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .form-bottom{

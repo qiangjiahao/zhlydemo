@@ -5,8 +5,9 @@
                 <el-row>
                 <el-col :span="24"><div class="grid-content bg-purple-dark title-box">
                     <div class="header___a9lTT">
-                    <p>房源标签</p>
-                     <el-button icon="el-icon-plus"  class="ant-btn">标签</el-button>
+                    <p style="line-height:38px;">{{fybq}}</p>
+                     <el-button icon="el-icon-plus"  class="ant-btn" @click="open" plain>标签</el-button>
+                     <xgdialog v-if="fytag" :visible.sync="fytag" :title="ttt"></xgdialog>
                     </div>                    
                 </div></el-col>
                 </el-row>
@@ -17,7 +18,7 @@
       :data="tableData3"
       style="width: 100%;background:#fafafa">
       <el-table-column
-        prop="templName"
+        prop="name"
         label="房源标签"
         width="1300px">
       </el-table-column>
@@ -34,40 +35,61 @@
     </div>
 </template>
 <script>
+import { Listhousesourcelabels } from '@/axios/api' //房源标签列表
+import { Removehousesourcelabel } from '@/axios/api' //删除房源标签
+
+import xgdialog from '@/components/profile/xgDialog'
 export default {
     name:'fyTag',
+    inject: ['reload'],
+    components:{
+      xgdialog
+    },
     data() {
         return {
-          tableData3: [{
-            templName: '朝南',
-            operation: '',
-          }, {
-            templName: '朝北',
-            operation: '',
-          }]
+          tableData3: [],
+          fytag: false,
+          ttt: '',
+          fybq: '房源标签'
         }
       },
-            methods: {
-      handleDelete(index, row) {
-        console.log(index, row);
-        this.$confirm('确认删除, 是否继续?', '提示', {
+      methods: {
+        handleDelete(index, row) {
+          this.$confirm('确认删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          Removehousesourcelabel({   
+            id: row.id                                      
+          }).then(res => { 
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            });
+            this.reload();
+          }); 
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });          
         });
+      },
+      open(){
+        this.fytag=true;
+        this.ttt=this.fybq;        
       }
-      }
+    },
+    mounted(){
+      Listhousesourcelabels({                                         
+      }).then(res => {
+        if (res.flag == 0) {
+          this.tableData3=res.data;
+        }
+      });
     }
+  }
 </script>
 
 <style scoped>
@@ -133,7 +155,7 @@ export default {
     color: rgba(0,0,0,.65);
     background-color: #fff;
     border: 1px solid #d9d9d9;
-    margin-top: 10px
+    margin-top: 4px;
 }
 .ant-table-wrapper{
     border-top: 1px solid rgb(224, 224, 224);

@@ -2,7 +2,7 @@
    
   <div style="width:100%;height:100%;">
     <!-- 返回顶部-->
-    <BackTop   id="to-top-btn" :height="20"></BackTop>   
+      <BackTop   id="to-top-btn" :height="20"></BackTop>   
        <el-container style="width:100%;height:100%;">
             <!--头部-->
 <el-header class="el-header" style="height:51px;line-height:51px;">
@@ -11,7 +11,7 @@
 				{{collapsed?'':sysName}}
 			</el-col>
       <div class="right">
-         <el-col :span="1"><div class="grid-content bg-purple"  @click.prevent="collapse"><span><i class="fa fa-outdent" style="cursor:pointer;"></i></span></div></el-col>
+         <el-col :span="1"><div class="grid-content bg-purple"  @click.prevent="collapse"><span><i class="fa fa-outdent" style="cursor:pointer;font-size:16px"></i></span></div></el-col>
   <el-col :span="10"><div class="grid-content bg-purple">
       <el-menu :default-active="isSelect" router class="el-menu-demo nav-ul" mode="horizontal"  @select="handleSelect" background-color="#e9eaeb" text-color="#4a5267"
   >
@@ -69,7 +69,9 @@
      <!-- 结束-->
      <!-- 楼宇勾选-->
       <el-collapse>
-       <div class="title_list" v-for="(itemlist, index) in itemAgg" :key="index"  :class="{ active___1cDXI:index==current}" style="margin-top:10px">
+      
+       <div class="title_list" v-for="(itemlist, index) in itemAgg" :key="index"  :class="{ active___1cDXI:index==current}" 
+       style="margin-top:10px">
          <div class="title_info" @click="addClass(index,itemlist.bid)">
            <div  class="title_info">{{itemlist.name}}</div>
            </div>
@@ -115,7 +117,7 @@
  <el-container style="max-height:1000px;border: 1px solid #eee;border-top:0px" :class="collapsed?'closeMainBox':'mainBox'">
  <!--中间渲染部分-->
     <el-main>
-     <router-view>
+     <router-view ref="children">
     </router-view>
     </el-main>
   </el-container>
@@ -146,12 +148,12 @@ export default {
         username:'',
         input:'',
         editIpt:'',
-        isSelect:'/',
+        isSelect:'/jh',
         activeNames: ['1'],
         showPrise:false,
         showBtn:true,
         navList:[
-            {name:'/',navItem:'集合'},
+            {name:'/jh',navItem:'集合'},
             {name:'/page1',navItem:'工作流'},
         ],
         checkList: [],
@@ -186,9 +188,8 @@ export default {
                 if(res.flag == 0){
                    that.itemAgg=res.data;
                   res.data.forEach((arr, index) => {
-                      that.checkList[index] = arr.build;
-                      })
-                  
+                    that.checkList[index] = arr.build;
+                    })
                 } 
             })
             // 获取楼宇列表
@@ -222,7 +223,8 @@ export default {
             }) 
       },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
+      // console.log( )
     },
       selectNav (name) {
         this.isSelect = name;
@@ -237,14 +239,17 @@ export default {
     },
         // 楼宇集合添加class 
          addClass:function(index1,seIid){
+        this.current = index1  //集合加calss
+        this.$refs.children.say();
         this.items.map(item=> Vue.set(item,'label',false));   //每次点击先清除class
-          this.current = index1  //集合加calss
              this.items.map((item, k,arr) => {   //循环集合列表。
                     let itemId = arr[k].id
                    var arrIDe = this.checkList[index1].map((arr1, i) => {  
                     let arrId = arr1;                   
                 if(arr[k].id){
-                     if(itemId==arrId){  
+                  if(itemId==arrId){  
+                  //  console.log(JSON.stringify(arr[k]))
+                   this.$store.commit('ADD_ITEMS',arr[k]);
                    Vue.set(arr[k],'label',true); 
                   }
                   }
@@ -605,6 +610,7 @@ color: #fff;
 }
 .el-aside::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
     border-radius: 10px;
+    box-shadow: inset 0 0 0px rgba(0,0,0,0.2);
     -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.2);
     background: #5d647b;
 }

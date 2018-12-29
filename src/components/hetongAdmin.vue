@@ -9,11 +9,11 @@
  keep-alive 将切换出去的组件保留在内存中 -->
 <htList :is="currentTab" keep-alive></htList>
 <el-button icon="el-icon-plus" class="btnHt" plain @click="open()">合同</el-button>
-<htDialog ref="openOrder" v-if="openOrderVisible" :visible.sync="openOrderVisible"></htDialog>
+<htDialog v-if="openOrderVisible" :visible.sync="openOrderVisible"></htDialog>
 </div>
 </template>
-<script>
 
+<script>
 // 引入子组件
 import htList from '../components/ht-list';
 import htGd from '../components/htGd';

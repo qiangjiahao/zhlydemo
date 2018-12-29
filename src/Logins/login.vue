@@ -1,12 +1,12 @@
 <template>
-    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"  label-position="left" label-width="0px" class="demo-ruleForm login-container login">
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"  label-position="left" label-width="0px" class="demo-ruleForm login">
         <el-form-item prop="username">
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <el-input type="text" v-model="ruleForm2.username" autocomplete="off" placeholder="用户名"></el-input>
         </el-form-item>
         <el-form-item prop="userpass">
             <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-            <el-input type="password" v-model="ruleForm2.userpass" autocomplete="off" placeholder="密码"></el-input>
+            <el-input type="password" v-model="ruleForm2.userpass" autocomplete="off" placeholder="密码" @keyup.enter.native="login"></el-input>
         </el-form-item>
         <el-form-item style="width:100%;padding-top: 20px;">
             <el-button type="primary" style="width:100%;" @click="login">登录</el-button>
@@ -47,8 +47,8 @@ export default {
     },
     methods:{
         login(){   
-        var tel = this.ruleForm2.username;
-        var pw = this.ruleForm2.userpass;
+     var tel = this.ruleForm2.username;
+      var pw = this.ruleForm2.userpass;
          Login({                    
                 tel: tel,                    
                 pw: pw             

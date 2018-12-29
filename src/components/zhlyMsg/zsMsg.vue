@@ -47,11 +47,10 @@ export default {
 .khgl{
   padding: 20px 30px;
   background: #fff;
-  overflow: hidden;
 }
 .khgl li{
   padding-left: 20px;
-  float: left;
+  display: inline-block;
   min-width: 120px;
   cursor: pointer;
   box-sizing: border-box;

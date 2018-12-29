@@ -5,8 +5,9 @@
                 <el-row>
                 <el-col :span="24"><div class="grid-content bg-purple-dark title-box">
                     <div class="header___a9lTT">
-                    <p>合同模板</p>
-                     <el-button icon="el-icon-plus"  class="ant-btn">模板</el-button>
+                    <p>{{htmb}}</p>
+                     <el-button icon="el-icon-plus"  class="ant-btn" @click="open" plain>模板</el-button>
+                     <htmbDialog v-if="htmbdialog" :visible.sync="htmbdialog"></htmbDialog>
                     </div>                    
                 </div></el-col>
                 </el-row>
@@ -14,62 +15,87 @@
             <!-- 表格 -->
             <div class="ant-table-wrapper">
                  <template>
-    <el-table
-      :data="tableData"
-      style="width: 100%;background:#fafafa">
-      <el-table-column
-        prop="templName"
-        label="模板名称"
-        width="1300px">
-      </el-table-column>
-      <el-table-column
-        prop="operation"
-        label="操作">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-            icon="el-icon-download"
-          @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-          <el-dropdown>
-    <el-button size="mini"  @click="handleDelete(scope.$index, scope.row)">
-    更多<i class="el-icon-arrow-down el-icon--right"></i>
-    </el-button>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>预览</el-dropdown-item>
-    <el-dropdown-item>删除</el-dropdown-item>
-  </el-dropdown-menu>
-</el-dropdown>
-      </template>
-      </el-table-column>
-    </el-table>
-  </template>
+              <el-table
+                :data="tableData"
+                style="width: 100%;background:#fafafa">
+                <el-table-column
+                  prop="name"
+                  label="模板名称"
+                  width="1300px">
+                </el-table-column>
+                <el-table-column
+                  prop="operation"
+                  label="操作">
+                  <template slot-scope="scope">
+                  <el-button size="mini" icon="el-icon-download" @click="handleEdit(scope.row)">下载</el-button>
+                  <el-button size="mini" icon="fa fa-eye" @click="handleOpen(scope.row)">预览</el-button>
+                  <el-button size="mini" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+                </template>
+                </el-table-column>
+              </el-table>
+            </template>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { Getwordlist } from '@/axios/api' //获取word列表
+import { Deletewordlist } from '@/axios/api' //删除word列表
+
+
+import htmbDialog from '@/components/profile/htmbDialog'
 export default {
     name:'contractTemplate',
+    inject: ['reload'],
+    components:{
+      htmbDialog
+    },
      data() {
         return {
-          tableData: [{
-            templName: '合同模板1',
-            operation: '',
-          }, {
-            templName: '合同模板1',
-            operation: '',
-          }]
+          tableData: [],
+          mbtag: false,
+          ttt: '',
+          htmb: '合同模板',
+          htmbdialog: false
         }
       },
-       methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
+      methods: {
+        handleEdit(row) {
+          window.location.href = row.down;
+        },
+        handleDelete(row) {
+          Deletewordlist({    
+            id: row.id                                         
+          }).then(res => {
+              if(res.flag == 0){  
+                this.$message({
+                    message: res.data.msg,
+                    type: 'success'
+                });
+                this.reload();
+              }else{
+                this.$message({
+                    message: res.data.msg,
+                    type: 'error'
+                });
+              }
+          }); 
+        },
+        handleOpen(row){
+          window.open(row.look);
+        },
+        open(){
+          this.htmbdialog=true;
+        }
       },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
+    mounted(){
+      Getwordlist({                                             
+      }).then(res => {
+          if(res.flag == 0){  
+              this.tableData=res.data;
+          } 
+      }); 
     }
-
 }
 </script>
 <style scoped>

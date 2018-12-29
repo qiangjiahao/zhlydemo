@@ -8,11 +8,11 @@
 				{{collapsed?'':sysName}}
 			</el-col>
       <div class="right">
-         <el-col :span="1"><div class="grid-content bg-purple"  @click.prevent="collapse"><span><i class="el-icon-menu" style="cursor:pointer;"></i></span></div></el-col>
-  <el-col :span="4" style="float:right">
-      <div class="grid-content bg-purple" style="text-align:right">
-          <!--问卷调查 -->
-          <i class="el-icon-back icon" style="margin-right: 15px" @click="goback"></i>
+         <el-col :span="1"><div class="grid-content bg-purple"  @click.prevent="collapse"><span><i class="fa fa-outdent" style="cursor:pointer;font-size:16px"></i></span></div></el-col>
+  <el-col :span="1" style="float:right;text-align:cenetr">
+      <div class="grid-content bg-purple" style="text-align:center;background:#108ee9">
+          <!--返回首页 -->
+          <i class="fa fa-reply icon"  @click="goback"></i>
       </div>
       </el-col>
       </div>
@@ -54,6 +54,7 @@
  </div>
 </template>
 <script>
+import { Islogin } from "@/axios/api"  //验证登录
 export default {
   name: "UserIndex",
   data() {
@@ -69,13 +70,13 @@ export default {
           children: [
                 { linkUrl1: '/fyTag',  name: '房源管理'}, //内部管理
                 {linkUrl1:'/htTag',name:'合同标签'},   //合同标签
-                {linkUrl1:'/Termination',name:'退租原因管理'},   // 退租原因管理
+                // {linkUrl1:'/Termination',name:'退租原因管理'},   // 退租原因管理
                 {linkUrl1:'/CostTypeTable',name:'费用类型管理'},    // 费用类型管理
                 {linkUrl1:'/tenantTag',name:'租客标签'},     //租客标签
                {linkUrl1:'/customIndustry',name:'行业管理'}       //行业管理
              ]
             },
-           {linkUrl:'#',menuItem:'模板管理',class:'el-icon-edit subIcon',
+           {linkUrl:'#',menuItem:'模板管理',class:'el-icon-document subIcon',
           children: [
                 { linkUrl1: '/contractTemplate',  name: '合同模板'}, //内部管理
              ]
@@ -84,18 +85,28 @@ export default {
       }
     },
     created(){
-        // let that=this;
-        // that.menuList.forEach((event)=>{
-        //     //   that.openeds.push(event.linkUrl)
-        // })
-       
-         
         this.active =  this.$route.path
     },
-    // mounted () {
-            
-    //         //  this.index =  this.$route.path
-    //     },
+    mounted () {
+            // 验证是否登录
+            let userInfo = JSON.parse(sessionStorage.getItem('user'));
+               let that=this;
+        that.username = userInfo.tel
+          Islogin({                    
+                id: userInfo.id,                              
+            }).then(res => {
+                if(res.flag != 0){        
+                     that.$message({
+                      message: '身份验证失败',
+                      type: "error",
+                      duration: 1000
+                    });
+                    that.$store.commit('REMOVE_COUNT',userInfo);
+                 setTimeout(() => { that.$router.replace("/logins")}, 1000)
+                }
+            }) 
+            //  this.index =  this.$route.path
+        },
   methods: {
       handleopen() {
 				console.log('handleopen');
@@ -167,7 +178,8 @@ export default {
 .subIcon{
     font-size: 16px;
     color: #ff8d1f;
-    padding-left: 35px
+    padding-left: 35px;
+    padding-right: 25px
 }
 .SubLi .el-submenu__title .el-submenu__icon-arrown{
     color: #fff !important;
@@ -223,8 +235,7 @@ export default {
 .icon{
     font-size:18px;
     font-weight:400;
-    color:#000;
-    margin-right: 30px !important;
+    color:#fff;
     cursor: pointer;
 }
  	.logo {

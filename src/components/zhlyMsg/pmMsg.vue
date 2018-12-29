@@ -84,8 +84,6 @@ export default {
 <style scoped>
 .pm{
     overflow: hidden;
-    padding: 20px 20px 0 20px;
-    box-sizing: border-box;
 }
 .pm li{
     float: left;

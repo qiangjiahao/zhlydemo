@@ -1,5 +1,5 @@
 <template> 
-    <el-dialog title="新建合同" :visible.sync="visible" class="ht-dialog" width="1000px" top="100px" center :before-close="modalClose">  
+    <el-dialog title="新建合同" :visible.sync="visible" class="ht-dialog" width="1000px" top="100px" center :before-close="modalClose" :append-to-body="true" :close-on-click-modal="false">  
         <el-menu class="el-menu-demo" :default-active="activeIndex" mode="horizontal">
             <el-menu-item index="01" :class="{itemtab:isitemtab}">基本信息</el-menu-item>
         </el-menu>             
@@ -12,20 +12,18 @@
                     <div class="tc-form-content">  
                         <div class="tc-form-contents">
                             <el-form-item label="合同编号" prop="htbh">
-                                <el-input v-model="ruleForm.htbh" placeholder="请填写合同编号"></el-input>
+                                <el-input v-model="ruleForm.htbh" placeholder="请填写合同编号" disabled></el-input>
                             </el-form-item>
                             <el-form-item label="跟进人" prop="gjr">   
-                                <el-select v-model="ruleForm.gjr">
-                                    <el-option label="1111111" value="1111111"></el-option>
-                                </el-select>  
+                                <el-input v-model="ruleForm.gjr" placeholder="请填写跟进人" disabled></el-input>  
                             </el-form-item>
                         </div>
                         <div class="tc-form-contents">
-                            <el-form-item label="租赁数量（已选0m²)" prop="htbh" class="form-item-flex">
+                            <el-form-item label="租赁数量（已选0m²)" prop="htbh01" class="form-item-flex">
                                 <el-input v-model="ruleForm.htbh01" placeholder="请输入面积"></el-input>
                                 <el-select v-model="ruleForm.htbh02">
-                                    <el-option label="m²" value="01"></el-option>
-                                    <el-option label="工位" value="02"></el-option>
+                                    <el-option label="m²" value="1"></el-option>
+                                    <el-option label="工位" value="2"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="合同签订时间" prop="htqdsj">   
@@ -66,15 +64,15 @@
                             </el-form-item>
                             <el-form-item label="计算精度" prop="jsjd">
                                 <el-select v-model="ruleForm.jsjd">
-                                    <el-option label="精确计算结果保留2位" value="01"></el-option>
-                                    <el-option label="每步计算结果保留2位" value="02"></el-option>
+                                    <el-option label="精确计算结果保留2位" value="1"></el-option>
+                                    <el-option label="每步计算结果保留2位" value="2"></el-option>
                                 </el-select>
                             </el-form-item>                        
                         </div>
                         <div class="tc-form-contents">
                             <el-form-item style="width:100%;" label="合同标签">
-                                <el-checkbox-group v-model="ruleForm.checkboxGroup1">
-                                    <el-checkbox-button>智慧园区</el-checkbox-button>
+                                <el-checkbox-group v-model="checkboxGroup1">
+                                    <el-checkbox-button v-for="(item,index) in zhyq" :key="index" :label="item.id" :value="item.id">{{item.name}}</el-checkbox-button>
                                 </el-checkbox-group>
                             </el-form-item>
                         </div>
@@ -90,16 +88,18 @@
                                 <el-autocomplete
                                 class="inline-input"
                                 v-model="ruleForm.zk"
-                                :fetch-suggestions="querySearch"
+                                :fetch-suggestions="querySearchAsync01"
                                 placeholder="请填写姓名或公司名称"
+                                @select="handleSelect01"
                                 ></el-autocomplete>
                             </el-form-item>
                             <el-form-item label="行业" prop="hy">   
                                 <el-autocomplete
                                 class="inline-input"
-                                v-model="ruleForm.state2"
-                                :fetch-suggestions="querySearch"
+                                v-model="ruleForm.hy"
+                                :fetch-suggestions="querySearchAsync02"
                                 placeholder="请选择行业"
+                                @select="handleSelect02"
                                 ></el-autocomplete> 
                             </el-form-item>
                         </div>
@@ -135,11 +135,20 @@
                         <span>房源信息</span>
                     </div>
                     <div class="tc-form-content" style="height:1008px;overflow:hidden;">  
-                        <p style="display: flex;justify-content: space-between;margin-bottom: 20px;font-size: 14px;">
+                        <p style="display: flex;justify-content: space-between;margin-bottom: 8px;font-size: 14px;">
                             <span>{{fymsg01}}</span>
                             <span style="color: #108ee9;cursor: pointer;" @click="fymsgevent02">{{fymsg02}}</span>
                         </p>
-                        <fymsg v-if="isfymsg"></fymsg>
+                        <ul v-if="isul">
+                            <li v-for="item in fyulxx" :key="item.id" style="height:28px;line-height:28px;font-size:14px;display:flex;justify-content: space-between;">
+                                <span>{{item.level_name}}</span>
+                                <span>{{item.room_number}}室</span>
+                                <span>{{item.area}}m²</span>
+                            </li>
+                        </ul>  
+                        <keep-alive>
+                            <fymsg v-if="isfymsg" @fyxx="fyxx" :bjid="bjid"></fymsg>
+                        </keep-alive>
                     </div>
                 </div>
             </div>
@@ -152,10 +161,17 @@
 </template>
 
 <script>
+import { addcontract } from '@/axios/api' //添加合同
+import { obtaintenant } from '@/axios/api' //获取租客
+import { accessindustry } from '@/axios/api' //获取行业
+import { obtaincontractlabel } from '@/axios/api' //获取合同标签
+
+
 import fymsg from '@/components/fangyuanAdmin/fymsg'
 
 export default {
-    name: 'zkDialog',
+    name: 'htDialog',
+    inject: ['reload'],
     props:{
         visible: {
             type: Boolean,
@@ -173,77 +189,179 @@ export default {
         return{
             nyr,
             ruleForm: {
-                gjr: "1111111",
-                htbh02: '01',
+                gjr: "",
+                htbh02: '1',
                 htqdsj: new Date(),
                 htjzsj: new Date(),
                 htjssj: nyr,
                 djblxsd: '2',
-                jsjd: '01',
-                checkboxGroup1: ''
+                jsjd: '1',
+                zk: '',
+                hy: '',
+                fr: '',
+                qdr: '',
+                zklxr: ''
             },
+            checkboxGroup1: [], 
+            state4: '',
+            restaurants01: [],
+            restaurants02: [],
+            timeout:null,  
             rules: {        
-               
+                htbh01: [{ required: true, message: '请输入面积', trigger: 'change' }],
+                htqdsj: [{ required: true, message: '请选择合同签订时间', trigger: 'change' }],
+                htjzsj: [{ required: true, message: '请选择合同计租时间', trigger: 'change' }],
+                htjssj: [{ required: true, message: '请选择合同结束时间', trigger: 'change' }],
+                djblxsd: [{ required: true, message: '请选择单价保留小数点', trigger: 'change' }],
+                jsjd: [{ required: true, message: '请选择计算精度', trigger: 'change' }],
+                zk: [{ required: true, message: '请填写姓名或公司名称', trigger: 'change' }],
+                hy: [{ required: true, message: '请选择行业', trigger: 'change' }],
+                fr: [{ required: true, message: '请填写法人', trigger: 'change' }],
+                qdr: [{ required: true, message: '请填写签订人', trigger: 'change' }],
+                zklxr: [{ required: true, message: '请输入租客联系人', trigger: 'change' }],
             },
             activeIndex: "01",
             isitemtab: true,
             fymsg01: '已选中房源',
             fymsg02: '+房源',
-            isfymsg: false
+            isfymsg: false,
+            isul: true,
+            id01: null,
+            id02: null,
+            zhyq: [],
+            fyulxx: [],
+            fyulxxid: [],
+            bjid: 0
         }
     },
     methods:{
-        querySearch(queryString, cb) {
-            var restaurants = this.restaurants;
-            var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-            // 调用 callback 返回建议列表的数据
+        querySearchAsync01(queryString, cb) {
+            var restaurants01 = this.restaurants01;
+            var results = queryString ? restaurants01.filter(this.createStateFilter(queryString)) : restaurants01;
+
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
             cb(results);
+            }, 500 * Math.random());
         },
-        createFilter(queryString) {
-            return (restaurant) => {
-            return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        querySearchAsync02(queryString, cb) {
+            var restaurants02 = this.restaurants02;
+            var results = queryString ? restaurants02.filter(this.createStateFilter(queryString)) : restaurants02;
+
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+            cb(results);
+            }, 500 * Math.random());
+        },
+        createStateFilter(queryString) {
+            return (state) => {
+            return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
-        loadAll() {
-            return [
-                { "value": "111", "address": "bossname01" },
-                { "value": "222", "address": "bossname02" },
-                { "value": "333", "address": "bossname03" },
-                { "value": "444", "address": "bossname04" },
-                { "value": "555", "address": "bossname05" },
-                { "value": "666", "address": "bossname06" },
-            ];
+        handleSelect01(item) {
+            this.id01=item.id;
+        },
+        handleSelect02(item) {
+            this.id02=item.id;
         },
         modalClose(){
             // 关闭弹窗，触发父组件修改visible值
             this.$emit('update:visible', false);
         },
         save(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.$emit('update:visible', false);
-                    this.$message({
-                        message: '恭喜你，保存成功',
-                        type: 'success'
-                    });
-                } else {    
-                    return false;
-                }
-            });
+            if(this.isul==true){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        addcontract({  
+                            znum: this.ruleForm.htbh01,
+                            ztype: this.ruleForm.htbh02,
+                            strtime: this.ruleForm.htqdsj,
+                            jtime: this.ruleForm.htjzsj,
+                            endtime: this.ruleForm.htjssj,
+                            pmoney: this.ruleForm.djblxsd,
+                            jingdu: this.ruleForm.jsjd,
+                            clable: this.checkboxGroup1,
+                            cid: this.id01,
+                            industryid: this.id02,
+                            legalperson: this.ruleForm.fr,
+                            signedperson: this.ruleForm.qdr,
+                            contacts: this.ruleForm.zklxr,
+                            roominfo: this.fyulxxid
+                        }).then(res => {
+                            if(res.flag == 0){ 
+                                this.$message({
+                                    message: '保存成功',
+                                    type: 'success'
+                                });  
+                                this.$emit('update:visible', false);
+                                this.reload();
+                            }else{
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        });
+                    } else {    
+                        return false;
+                    }
+                });
+            }else{
+                this.$message({
+                    message: '请确认完成',
+                    type: 'warning'
+                });
+            }                    
         },
         fymsgevent02(){
-            this.isfymsg=!this.isfymsg;
-            if(this.isfymsg==true){
-                this.fymsg02="完成";
+            if(this.isul==true){
                 this.fymsg01="房源列表";
+                this.fymsg02="完成";
+                this.isul=false;
+                this.isfymsg=true;
             }else{
-                this.fymsg02="+房源";
                 this.fymsg01="已选中房源";
+                this.fymsg02="+房源";
+                this.isul=true;
+                this.isfymsg=false;
             }
+        },
+        fyxx(checkList,kzs){
+            let arr = [];    
+            let arrid = [];  
+            for(const key in checkList){
+                for(const keys in kzs){
+                    if(checkList[key]==kzs[keys].id){
+                        var kkk=kzs[keys];
+                        var kkkid=kzs[keys].id;
+                        arr.push(kkk);
+                        arrid.push(kkkid);
+                    }
+                }
+            }
+            this.fyulxx=arr;
+            this.fyulxxid=arrid;
         }
     },
     mounted() {
-      this.restaurants = this.loadAll();
+        obtaintenant({                                                
+        }).then(res => {
+            if(res.flag == 0){      
+                this.restaurants01 = res.data;
+            }
+        });             
+        accessindustry({                                                
+        }).then(res => {
+            if(res.flag == 0){ 
+                this.restaurants02 =res.data;
+            }
+        });
+        obtaincontractlabel({                                                
+        }).then(res => {
+            if(res.flag == 0){          
+                this.zhyq =res.data;
+            }
+        }); 
     }
 }
 </script>
@@ -386,10 +504,17 @@ export default {
 }
 .ht-dialog .el-dialog__body .demo-ruleForm .tc-form-content .tc-form-contents .form-item-flex .el-form-item__content{
     display: flex;
+    justify-content: space-between;
 }
 .ht-dialog .el-dialog__body .demo-ruleForm .tc-form-content .tc-form-contents .form-item-flex .el-form-item__content .el-input{
-    margin-right: 10px; 
-    width: 190%;
+    width: 70%;
+    margin-right: 10px;
+}
+.ht-dialog .el-dialog__body .demo-ruleForm .tc-form-content .tc-form-contents .form-item-flex .el-form-item__content .el-select{
+    width: 30%;
+}
+.ht-dialog .el-dialog__body .demo-ruleForm .tc-form-content .tc-form-contents .form-item-flex .el-form-item__content .el-select .el-input{
+    width: 100%;
 }
 
 .ht-dialog .el-dialog__footer{

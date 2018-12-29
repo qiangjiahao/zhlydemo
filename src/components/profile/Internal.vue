@@ -15,19 +15,43 @@
 <el-row  class="InHeaderTop">
   <el-col :span="24"><div class="grid-content bg-purple-dark" >
       <span class="InHeaderSpan">内部管理</span>
-      <el-button type="info" icon="el-icon-plus" class="InHeaderBtn">新建人员</el-button>
+      <el-button type="info" icon="el-icon-plus" class="InHeaderBtn" @click="intdialog=true">新建人员</el-button>
+      <el-dialog title="新建人员" :visible.sync="intdialog" width="600px">
+        <el-form :model="form" ref="form" :rules="rules" class="demo-ruleForm" hide-required-asterisk>
+          <div class="el-div">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="form.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="电话" prop="tel">
+              <el-input v-model="form.tel" autocomplete="off"></el-input>
+            </el-form-item>
+          </div>
+          <div class="el-div">
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="form.email" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="pw">
+              <el-input type="password" v-model="form.pw" autocomplete="off"></el-input>
+            </el-form-item>
+          </div>     
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="intdialog = false">取 消</el-button>
+          <el-button type="primary" @click="save('form')">确 定</el-button>
+        </div>
+      </el-dialog>
       </div>
       </el-col>
 </el-row>
 <el-row  class="InHeaderBottom">
      <el-col :span="4">
          <div class="grid-content bg-purple-dark">
-             <span style="font-size:24px">赵楠</span>
+             <span style="font-size:24px">{{name}}</span>
          </div>
       </el-col>
       <el-col :span="18">
          <div class="grid-content bg-purple-dark">
-             <span>ssun@creams.io</span>
+             <span>{{email}}</span>
          </div>
       </el-col>
       <el-col :span="2">
@@ -48,8 +72,8 @@
       label="姓名">
     </el-table-column>
     <el-table-column
-      prop="phone"
-      label="赵楠">
+      prop="tel"
+      label="电话">
     </el-table-column>
     <el-table-column
       prop="email"
@@ -59,10 +83,10 @@
      prop="qy"
       label="启用">
         <template slot-scope="scope">
-              <el-switch v-model="value"></el-switch>
+              <el-switch v-model="scope.row.status" @change="zt(scope.row,scope.row.status)"></el-switch>
       </template>
     </el-table-column>
-<el-table-column
+    <el-table-column
      prop="edit"
       label="操作">
         <template slot-scope="scope">
@@ -81,27 +105,113 @@
 </div>
 </template>
 <script>
+import { addadmin } from '@/axios/api' //添加管理员
+import { Getadministratorlist } from '@/axios/api' //获取管理员列表
+import { Modifyadministratorstatus } from '@/axios/api' //修改管理员状态
+import { Getuserinformation } from '@/axios/api' //获取用户信息
+
 export default {
     name:'Internal',
       data() {
       return {
         activeIndex: '1',
         input: "",
-         tableData: [{
-          phone: '13080920872',
-          name: '赵楠',
-          email: '827745311@qq.com'
-        }],
-        value:true
-      };
+         tableData: [],
+        value:true,
+        intdialog: false,
+        form:{
+          name: '',
+          tel: '',
+          pw: '',
+          email: ''
+        },
+        rules: {        
+          name: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+          tel: [{ required: true, message: '请输入电话', trigger: 'change' }],
+          email: [{ required: true, message: '请输入邮箱', trigger: 'change' }],
+          pw: [{ required: true, message: '请输入密码', trigger: 'change' }]
+        },
+        statusval: null,
+        name: '',
+        email: ''
+      }
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        
+      },
+      save(formName) {  
+         this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addadmin({  
+              name: this.form.name, 
+              tel: this.form.tel, 
+              email: this.form.email, 
+              pw: this.form.pw,                                         
+            }).then(res => {
+              if (res.flag == 0) {
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                }); 
+              } else {
+                this.$message({
+                    message: res.data.msg,
+                    type: 'error'
+                  });  
+              }
+            });
+          } else {
+            return false;
+          }
+        });     
+      },
+      zt(row,status){
+        Modifyadministratorstatus({  
+          id: row.id,
+          status: this.statusval
+        }).then(res => {
+          if(res.flag == 0){
+            this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                }); 
+                this.statusval=!this.statusval;
+          }else{
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            }); 
+            this.statusval=!this.statusval;
+          }
+        });
       }
+    },
+    mounted(){
+      Getadministratorlist({  
+        type: '2'                                         
+      }).then(res => {
+        if(res.flag == 0){ 
+          for (const key in res.data) {
+            if (res.data[key].status=="0") {
+              res.data[key].status=true;
+            }else{
+              res.data[key].status=false
+            }
+          }
+          this.tableData=res.data;
+        }
+      });
+      Getuserinformation({                                     
+      }).then(res => {
+      if (res.flag == 0) {
+              this.name = res.data.name;
+              this.email = res.data.email;
+          } 
+      });
     }
   }
-</script>
+</script>     
 
 <style>
 .antTab{
@@ -109,13 +219,12 @@ export default {
 }
 .antTab .el-pagination{
     padding: 10px;
-    /* float: right */
     text-align:right;
 }
 .searchTit .el-menu-item.is-active{
      color: #409EFF !important
  }
- .searchTit .el-input__inner {
+ .searchTit .searchIpt .el-input__inner {
   border: none;
 }
 .searchTit .el-input__icon {
@@ -171,5 +280,69 @@ export default {
     top: 35px;
     border-right: none;
     padding-right: none;
+}
+.searchTit .el-dialog__header{
+    height: 50px;
+    text-align: center;
+    padding: 13px 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1d2b3b;
+    border-bottom: 1px solid #e9e9e9;
+}
+.searchTit .el-dialog__header .el-dialog__headerbtn{
+    top: 14px;
+}
+.searchTit .el-dialog__body{
+    background-color: #f4f4f4;
+    font-size: 12px;
+    padding: 0;
+}
+.searchTit .el-dialog__body .demo-ruleForm{
+    padding: 20px;
+}
+.searchTit .el-dialog__body .demo-ruleForm label{
+    text-align: left;
+    font-size: 12px;
+    color: #6b809f;   
+    min-height: 22px;
+    line-height: 18px;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-form-item .el-form-item__content{
+    line-height: 30px;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-form-item input{
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    font-size: 12px;
+    padding: 0 8px;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-form-item .el-select{
+    width: 100%;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-form-item .el-select .el-input__icon{
+    line-height: 30px;
+    font-size: 12px;
+    width: 18px;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-div{
+  display: flex;
+  justify-content: space-between;
+}
+.searchTit .el-dialog__body .demo-ruleForm .el-div .el-form-item{
+  width: calc(50% - 9px);
+}
+.searchTit .el-dialog__footer{
+    height: 60px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid #e9e9e9;
+}
+.searchTit .el-dialog__footer .el-button{
+    padding: 10px 30px;
 }
 </style>

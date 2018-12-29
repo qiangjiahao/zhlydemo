@@ -23,8 +23,6 @@
           prefix-icon="el-icon-search">
         </el-input>
       </div>
-      <div class="xzdl">
-      </div>
       <zsMsg></zsMsg>  
     </div>
     <zsOnetable></zsOnetable>

@@ -12,7 +12,7 @@ import { Loading, Message } from 'element-ui'
     axios.defaults.baseURL = 'http://dev.xibei.co';
  
 // 请求超时时间
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 3000;
  
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';

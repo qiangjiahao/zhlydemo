@@ -129,23 +129,7 @@ export default {
 .fy .el-table tbody tr td .cell{
     padding: 0 20px;
 }
-.fy .fydetails-div{
-    display: flex;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.fy .fydetails-div .el-button{
-    padding: 6px 10px;
-    font-size: 12px;
-    margin-left: -1px;
-}
-.fy .fydetails-div .el-button:first-child{
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.fy .fydetails-div .el-button:last-child{
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.fy .fy-table .el-table__row{
+  cursor: pointer;
 }
 </style>

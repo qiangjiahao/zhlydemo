@@ -58,21 +58,13 @@ body{
 ul li{
   list-style: none;
 }
-.el-popper[x-placement^=bottom]{
-    margin-top: 6px;
-}
-.el-popper .el-select-dropdown__item{
-    height: 30px;
-    line-height: 30px;
-    font-size: 12px;
-}
 .SubLi .el-menu-item-group__title{
   padding: 0;
 }
 .title_list .el-collapse-item__header,.el-collapse-item__wrap{
   background: #1a1c24;
   border-bottom: none;
-  color: #fff
+  color: #fff; 
 }
 .title_info input{
   padding: 0;
