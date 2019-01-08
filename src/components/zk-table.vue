@@ -3,10 +3,10 @@
       <div class="titleBox">
         <el-row>
           <el-col :span="18"><div class="grid-content bg-purple" style="font-size:14px;color:rgba(0,0,0,.65)">租客管理</div></el-col>
-          <el-col :span="4"><div class="grid-content bg-purple-light">  <el-checkbox  style="color:rgba(0,0,0,.65);font-size:12px;">仅显示在租租客</el-checkbox></div></el-col>
-          <el-col :span="2" style="text-align:right">
+          <!-- <el-col :span="4"><div class="grid-content bg-purple-light">  <el-checkbox  style="color:rgba(0,0,0,.65);font-size:12px;">仅显示在租租客</el-checkbox></div></el-col> -->
+          <el-col :span="6" style="text-align:right">
             <div class="grid-content bg-purple">
-              <el-dropdown>
+              <el-dropdown @command="handleCommand">
                 <i class="el-icon-more" style="cursor:pointer"></i>
                 <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>列表导出</el-dropdown-item>
@@ -244,25 +244,25 @@
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">统一社会信用代码</div>
-                                  <div class="zxsscontent-bottom">91330303325567662G</div>
+                                  <div class="zxsscontent-bottom">{{uccode}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">纳税人识别号</div>
-                                  <div class="zxsscontent-bottom">91330303325567662G</div>
+                                  <div class="zxsscontent-bottom">{{tinumber}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">注册号</div>
-                                  <div class="zxsscontent-bottom">330303000135770</div>
+                                  <div class="zxsscontent-bottom">{{rnumber}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">组织机构代码</div>
-                                  <div class="zxsscontent-bottom">32556766-2</div>
+                                  <div class="zxsscontent-bottom">{{ocode}}</div>
                               </div>
                           </div>
                       </div>
@@ -270,25 +270,25 @@
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">法定联系人</div>
-                                  <div class="zxsscontent-bottom">陈建</div>
+                                  <div class="zxsscontent-bottom">{{representative}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">国籍</div>
-                                  <div class="zxsscontent-bottom">中国</div>
+                                  <div class="zxsscontent-bottom">{{nationality}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">注册资本(万人民币)</div>
-                                  <div class="zxsscontent-bottom">20万元人民币</div>
+                                  <div class="zxsscontent-bottom">{{rcapital}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">经营状态</div>
-                                  <div class="zxsscontent-bottom">存续</div>
+                                  <div class="zxsscontent-bottom">{{ostate}}</div>
                               </div>
                           </div>
                       </div>
@@ -296,25 +296,25 @@
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">成立日期</div>
-                                  <div class="zxsscontent-bottom">暂无</div>
+                                  <div class="zxsscontent-bottom">{{edate}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">公司类型</div>
-                                  <div class="zxsscontent-bottom">有限责任公司(自然人投资或控股)</div>
+                                  <div class="zxsscontent-bottom">{{ctype}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">人员规模</div>
-                                  <div class="zxsscontent-bottom"></div>
+                                  <div class="zxsscontent-bottom">{{scale}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">营业期限</div>
-                                  <div class="zxsscontent-bottom">2024/12/14</div>
+                                  <div class="zxsscontent-bottom">{{timelimit}}</div>
                               </div>
                           </div>
                       </div>
@@ -322,25 +322,25 @@
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">核准日期</div>
-                                  <div class="zxsscontent-bottom">暂无</div>
+                                  <div class="zxsscontent-bottom">{{adate}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">英文名</div>
-                                  <div class="zxsscontent-bottom"></div>
+                                  <div class="zxsscontent-bottom">{{ename}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">所属地区</div>
-                                  <div class="zxsscontent-bottom">浙江</div>
+                                  <div class="zxsscontent-bottom">{{aarea}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">登记机关</div>
-                                  <div class="zxsscontent-bottom">温州市龙湾区市场监督管理局</div>
+                                  <div class="zxsscontent-bottom">{{registration}}</div>
                               </div>
                           </div>
                       </div>
@@ -348,25 +348,25 @@
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">所属行业</div>
-                                  <div class="zxsscontent-bottom">批发和零售业</div>
+                                  <div class="zxsscontent-bottom">{{industry}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">开票地址</div>
-                                  <div class="zxsscontent-bottom">温州市龙湾区蒲州街道屿田村贺兴路68弄39号</div>
+                                  <div class="zxsscontent-bottom">{{taddress}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">注册地址</div>
-                                  <div class="zxsscontent-bottom">温州市龙湾区蒲州街道屿田村贺兴路68弄39号</div>
+                                  <div class="zxsscontent-bottom">{{raddress}}</div>
                               </div>
                           </div>
                           <div class="zsxxcol">
                               <div class="zxsscontent">
                                   <div class="zxsscontent-top">经营范围</div>
-                                  <div class="zxsscontent-bottom">销售:文具用品、纸张、办公用品。销售:文具用品、纸张、办公用品。</div>
+                                  <div class="zxsscontent-bottom">{{scope}}</div>
                               </div>
                           </div>
                       </div>
@@ -396,7 +396,7 @@
 <script>
 import { zkList } from '@/axios/api' //获取租客列表
 import { getonecustomer } from '@/axios/api' //编辑租客详情
-
+import { Obtaintenantbusinessinformation } from '@/axios/api' //获取租客工商信息
 
 import zkDialog from '@/components/zukeAdmin/zkDialog'
 import htDialog from '@/components/hetongAdmin/htDialog'
@@ -405,6 +405,12 @@ export default {
     name: 'zkTable',
     components:{
       zkDialog,htDialog
+    },
+    props:{
+        tablelists:{
+            type: Array,
+            required: true
+        }
     },
     data(){
         return{
@@ -432,24 +438,43 @@ export default {
             cardnum: '',
             bankname: '',
             banktel: '',
-            taddress: ''
-            //租客详情弹窗
-
+            taddress: '',
+            uccode: '',
+            tinumber: '',
+            rnumber: '',
+            ocode: '',
+            representative: '',
+            nationality: '',
+            rcapital: '',
+            ostate: '',
+            edate: '',
+            ctype: '',
+            scale: '',
+            timelimit: '',
+            adate: '',
+            ename: '',
+            aarea: '',
+            registration: '',
+            industry: '',
+            raddress: '',
+            scope: ''
         }
     },
     mounted(){
-       // 租客列表
+        // 租客列表
         zkList({                                                 
         }).then(res => {
             if(res.flag == 0){         
                 this.tableData3=res.data;    
             } 
-        }) 
+        });
+    },
+    watch:{
+        tablelists(val,oldval){
+            this.tableData3=val;           
+        }
     },
     methods:{
-        shanchu(){
-            this.sclxr=!this.sclxr;
-        },
         qd(index){
             this.tableData.splice(index,1);
             this.sclxr=false;
@@ -467,7 +492,35 @@ export default {
             this.isopendarwer=false;
             setTimeout(()=>{
                 this.isopendarwer02=true;
-            },500)    
+            },500)   
+            Obtaintenantbusinessinformation({ 
+                cid: this.id
+            }).then(res => {
+                if(res.flag == 0){         
+                    for(const item in res.data){
+                        var obj = res.data[item]
+                    }
+                    this.uccode=obj.uccode;
+                    this.tinumber=obj.tinumber;
+                    this.rnumber=obj.rnumber;
+                    this.ocode=obj.ocode;
+                    this.representative=obj.representative;
+                    this.nationality=obj.nationality;
+                    this.rcapital=obj.rcapital;
+                    this.ostate=obj.ostate;
+                    this.edate=obj.edate;
+                    this.ctype=obj.ctype;
+                    this.scale=obj.scale;
+                    this.timelimit=obj.timelimit;
+                    this.adate=obj.adate;
+                    this.ename=obj.ename;
+                    this.aarea=obj.aarea;
+                    this.registration=obj.registration;
+                    this.industry=obj.industry;
+                    this.raddress=obj.raddress;
+                    this.scope=obj.scope;
+                } 
+            });      
         },
         back(){
             this.isopendarwer02=false;
@@ -477,7 +530,7 @@ export default {
         },
         zkbjdialog(){
             this.zkbj=true;    
-            this.$store.commit('ADD_DATEILSID',this.id);            
+            this.$store.commit('ADD_DATEILSID',this.id);  
         },
         open(row){
             this.isopendarwer=true;
@@ -505,7 +558,13 @@ export default {
         },
         openht(){
             this.zkht=true;
+        },
+        handleCommand(){
+            window.location.href = 'http://dev.360yibao.cn/builadmin/customer/index?a=down';
         }
+    },
+    updated(){
+        this.$store.commit('NUMBER_TENANTS',this.tableData3.length);
     }
 }
 </script>

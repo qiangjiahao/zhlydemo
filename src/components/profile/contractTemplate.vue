@@ -64,22 +64,33 @@ export default {
           window.location.href = row.down;
         },
         handleDelete(row) {
-          Deletewordlist({    
-            id: row.id                                         
-          }).then(res => {
-              if(res.flag == 0){  
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                Deletewordlist({    
+                    id: row.id                                         
+                }).then(res => {
+                    if(res.flag == 0){  
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                        this.reload();
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                }); 
+                }).catch(() => {
                 this.$message({
-                    message: res.data.msg,
-                    type: 'success'
-                });
-                this.reload();
-              }else{
-                this.$message({
-                    message: res.data.msg,
-                    type: 'error'
-                });
-              }
-          }); 
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
         handleOpen(row){
           window.open(row.look);

@@ -1,7 +1,7 @@
 <template> 
     <div>
         <el-button plain icon="el-icon-edit" class="tabBtn btnHt" @click="openbjht">编辑合同</el-button>
-        <el-dialog title="编辑合同" :visible.sync="aaaDialog" class="ht-dialog" width="1000px" top="100px" center :append-to-body="true" :close-on-click-modal="false">  
+        <el-dialog title="编辑合同" :visible.sync="aaaDialog" class="ht-dialog" width="1000px" top="100px" center :append-to-body="true" :close-on-click-modal="false" :before-close="cancel">  
             <el-menu class="el-menu-demo" :default-active="activeIndex" mode="horizontal">
                 <el-menu-item index="01" :class="{itemtab:isitemtab}">基本信息</el-menu-item>
             </el-menu>             
@@ -142,21 +142,21 @@
                                 <span style="color: #108ee9;cursor: pointer;" @click="fymsgevent02">{{fymsg02}}</span>
                             </p>
                             <ul v-if="isul">
-                                <li v-for="item in fyulxx" :key="item.id" style="height:28px;line-height:28px;font-size:14px;display:flex;justify-content: space-between;">
+                                <li v-for="item in ruleForm.xzfy" :key="item.id" style="height:28px;line-height:28px;font-size:14px;display:flex;justify-content: space-between;">
                                     <span>{{item.level_name}}</span>
                                     <span>{{item.room_number}}室</span>
                                     <span>{{item.area}}m²</span>
                                 </li>
                             </ul>  
                             <keep-alive>
-                                <fymsg v-if="isfymsg" @fyxx="fyxx" :bjid="bjid"></fymsg>
+                                <fymsg v-if="isfymsg" @fyxx="fyxx" :fyulxxid="fyulxxid"></fymsg>
                             </keep-alive>
                         </div>
                     </div>
                 </div>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button plain @click="aaaDialog=false" >取 消</el-button>
+                <el-button plain @click="cancel" >取 消</el-button>
                 <el-button type="primary" @click="save('ruleForm')">保 存</el-button>
             </div>   
         </el-dialog>
@@ -180,6 +180,7 @@ export default {
             required: true
         }       
     },
+    inject: ['reload'],
     components:{
         fymsg
     },
@@ -204,7 +205,8 @@ export default {
                 hy: '',
                 fr: '',
                 qdr: '',
-                zklxr: ''
+                zklxr: '',
+                xzfy: []
             },
             checkboxGroup1: [], 
             state4: '',
@@ -233,9 +235,8 @@ export default {
             id01: null,
             id02: null,
             zhyq: [],
-            bjid: 0,
             fyulxx: [],
-            fyulxxid: [],
+            fyulxxid: []
         }
     },
     methods:{ 
@@ -246,7 +247,7 @@ export default {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
             cb(results);
-            }, 500 * Math.random());
+            }, 100 * Math.random());
         },
         querySearchAsync02(queryString, cb) {
             var restaurants02 = this.restaurants02;
@@ -255,7 +256,7 @@ export default {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
             cb(results);
-            }, 500 * Math.random());
+            }, 100 * Math.random());
         },
         createStateFilter(queryString) {
             return (state) => {
@@ -279,6 +280,11 @@ export default {
                     var hy = this.restaurants02[key].id;
                 }
             } 
+            let arrid = [];
+            for (const key in this.ruleForm.xzfy) {
+                var rid = this.ruleForm.xzfy[key].id;
+                arrid.push(rid)
+            }
             if(this.isul==true){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -297,7 +303,7 @@ export default {
                             legalperson:this.ruleForm.fr,
                             signedperson:this.ruleForm.qdr,
                             contacts:this.ruleForm.zklxr,
-                            roominfo: this.fyulxxid
+                            roominfo: arrid
                         }).then(res => {
                             if(res.flag == 0){  
                                 this.$message({
@@ -324,18 +330,8 @@ export default {
                 });
             }                    
         },
-        fymsgevent02(){
-            if(this.isul==true){
-                this.fymsg01="房源列表";
-                this.fymsg02="完成";
-                this.isul=false;
-                this.isfymsg=true;
-            }else{
-                this.fymsg01="已选中房源";
-                this.fymsg02="+房源";
-                this.isul=true;
-                this.isfymsg=false;
-            }
+        cancel(){
+             this.reload();
         },
         openbjht(){
             this.aaaDialog=true;
@@ -366,24 +362,37 @@ export default {
                     }  
                     this.ruleForm.fr=res.data.legalperson;
                     this.ruleForm.qdr=res.data.signedperson;
-                    this.ruleForm.zklxr=res.data.contacts;      
+                    this.ruleForm.zklxr=res.data.contacts;  
+                    this.ruleForm.xzfy=res.data.rid;
                 }
             });
         },
+        fymsgevent02(){
+            if(this.isul==true){
+                this.fymsg01="房源列表";
+                this.fymsg02="完成";
+                this.isul=false;
+                this.isfymsg=true;
+            }else{
+                this.fymsg01="已选中房源";
+                this.fymsg02="+房源";
+                this.isul=true;
+                this.isfymsg=false;
+            }
+        },
         fyxx(checkList,kzs){
-            let arr = [];    
+            this.ruleForm.xzfy= [];   
             let arrid = [];  
             for(const key in checkList){
                 for(const keys in kzs){
                     if(checkList[key]==kzs[keys].id){
                         var kkk=kzs[keys];
                         var kkkid=kzs[keys].id;
-                        arr.push(kkk);
+                        this.ruleForm.xzfy.push(kkk);
                         arrid.push(kkkid);
                     }
                 }
             }
-            this.fyulxx=arr;
             this.fyulxxid=arrid;
         }
     },
@@ -397,7 +406,7 @@ export default {
         accessindustry({                                                
         }).then(res => {
             if(res.flag == 0){   
-                this.restaurants02 =res.data;
+                this.restaurants02 = res.data;
             }
         });
         obtaincontractlabel({                                                

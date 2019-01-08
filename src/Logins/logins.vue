@@ -1,5 +1,6 @@
 <template>
-<div class="log-reg">
+  <div class="log-reg">
+    <div class="tab-bg"></div>
     <div class="tab">
       <ul class="tab-txt">
         <li v-for="(item,index) in tabs" :key="index" @click="toggleTab(item.sub,index)" :class="{tabclass:index == nowIndex}">{{item.name}} </li>
@@ -9,7 +10,7 @@
         <login :is="currentTab" keep-alive></login>       
       </div>
     </div>
-</div>
+  </div>
 </template>
 <script>
 import login from "@/Logins/login"
@@ -44,6 +45,13 @@ export default {
     width: 100%;
     height: 100%;
     background: url('../assets/login.jpg') no-repeat; 
+    background-size: 100% 100%;
+  }
+  .log-reg .tab-bg{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .4);
   }
   .log-reg .tab{
     width: 464px;
@@ -54,7 +62,7 @@ export default {
     top: 0;
     bottom: 0;
     margin: auto;
-    background-color: #fff;
+    background: rgba(0, 0, 0, .8);
   }
   .log-reg .tab .tab-txt{
     width: 100%;
@@ -62,7 +70,8 @@ export default {
     font-size: 16px;
     color: #333;
     box-sizing: border-box;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid;
+    border-color: rgba(0, 0, 0, .8);
   }
   .log-reg .tab .tab-txt li{
     float: left;
@@ -70,18 +79,21 @@ export default {
     line-height: 48px;
     text-align: center;
     box-sizing: border-box;
+    color: #fff;
     cursor: pointer;
   }
   .log-reg .tab .tab-txt .tabclass{
-    background-color: #f6f6f6;
+    background-color: #4e5052;
   }
   .log-reg .tab .tab-txt li:first-child{
-    border-right: 1px solid #eee;
+    border-right: 1px solid;
+    border-color: rgba(0, 0, 0, .8);
   }
   .log-reg .tab .logo{
     width: 120px;
     height: 110px;
     background: url("../assets/logo.png") no-repeat;
+    background-size: 100% 100%; 
     margin: 32px auto;
   }
   .log-reg .tab .tab-content{

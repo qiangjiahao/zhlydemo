@@ -10,7 +10,7 @@
         </el-form-item>
         <el-form-item style="width:100%;padding-top: 20px;">
             <el-button type="primary" style="width:100%;" @click="login">登录</el-button>
-            <router-link tag='span' :to="{ path:'/forget' }" >忘记密码</router-link>
+            <router-link tag='span' :to="{ path:'/forget' }" style="float: left;color: #fff;cursor: pointer;" >忘记密码</router-link>
         </el-form-item>
     </el-form>   
 </template>

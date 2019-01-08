@@ -7,7 +7,7 @@
         <el-form-item prop="yzm" class="yzm">
             <i class="fa fa-get-pocket" aria-hidden="true"></i>
             <el-input type="text" v-model="ruleForm2.yzm" autocomplete="off" placeholder="请输入验证码"></el-input>
-            <el-button type="primary" class="hqyzm" @click="setCode" v-bind:disabled="disabled">{{btntxt}}</el-button>
+            <el-button type="primary" class="hqyzm" @click="setCode" :disabled="disabled">{{btntxt}}</el-button>
         </el-form-item>
         <el-form-item prop="userpass">
             <i class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -17,7 +17,7 @@
             <i class="fa fa-unlock-alt" aria-hidden="true"></i>
             <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off" placeholder="请再次输入密码"></el-input>
         </el-form-item>
-        <el-checkbox v-model="checked">我已认真阅读并接受</el-checkbox>
+        <el-checkbox v-model="checked" style="width: 100%;color: #fff;display: flex;align-items: center;">我已认真阅读并接受</el-checkbox>
         <el-form-item style="width:100%;padding-top: 20px;">
             <el-button type="primary" style="width:100%;" @click="Reg">注册</el-button>
             <!-- <div style="font-size:14px;color: #666;text-align: center;">忘记密码？<router-link to="/logins"><span>立即修改</span></router-link></div> -->

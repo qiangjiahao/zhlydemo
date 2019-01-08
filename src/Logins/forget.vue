@@ -1,5 +1,6 @@
 <template>
 <div class="forget">
+    <div style="position: relative;width: 100%;height: 100%;background: rgba(0, 0, 0, .4);"></div>
     <div class="forget-content">
         <div class="logo"></div>
         <div class="forget-bottom">
@@ -25,7 +26,7 @@
                     <i class="fa fa-unlock-alt" aria-hidden="true"></i>
                     <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off" placeholder="请再次输入密码"></el-input>
                 </el-form-item>
-                <el-checkbox v-model="checked">我已认真阅读并接受</el-checkbox>
+                <el-checkbox v-model="checked" style="width: 100%;color: #fff;display: flex;align-items: center;">我已认真阅读并接受</el-checkbox>
                 <el-form-item style="width:100%;padding-top: 20px;">
                     <el-button type="primary" style="width:100%;" @click="forget">提交</el-button>
                 </el-form-item>
@@ -186,7 +187,7 @@ export default {
     top: 0;
     bottom: 0;
     margin: auto;
-    background-color: #fff;
+    background: rgba(0, 0, 0, .8);
 }
 .forget .forget-content .logo{
     width: 120px;
@@ -202,11 +203,11 @@ export default {
 }
 .forget .forget-content .forget-bottom .txt p:first-child{
     font-size: 22px;
-    color: #333;
+    color: #fff;
 }
 .forget .forget-content .forget-bottom .txt p:last-child{
     font-size: 14px;
-    color: #666;
+    color: #f2f2f2;
 }
 .forget .forget-content .forget-bottom .el-form .el-form-item{
     position: relative;
@@ -241,7 +242,7 @@ export default {
 }
 .forget .forget-content .forget-bottom .fh a{
     font-size: 14px;
-    color: #666;
+    color: #fff;
     text-decoration: none;
 }
 </style>

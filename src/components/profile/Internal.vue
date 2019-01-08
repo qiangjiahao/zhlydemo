@@ -6,8 +6,8 @@
   <div class="demo-input-suffix searchBox">
   <el-input
     placeholder="搜索子账号名称"
-    v-model="input" class="searchIpt">
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    v-model="input" class="searchIpt"  @keyup.enter.native="search">
+    <i slot="prefix" class="el-input__icon el-icon-search" @click="search"></i>
   </el-input>
 </div>
 <div class="authorityContainer">
@@ -112,7 +112,8 @@ import { Getuserinformation } from '@/axios/api' //获取用户信息
 
 export default {
     name:'Internal',
-      data() {
+    inject: ['reload'],
+    data() {
       return {
         activeIndex: '1',
         input: "",
@@ -131,7 +132,6 @@ export default {
           email: [{ required: true, message: '请输入邮箱', trigger: 'change' }],
           pw: [{ required: true, message: '请输入密码', trigger: 'change' }]
         },
-        statusval: null,
         name: '',
         email: ''
       }
@@ -154,6 +154,7 @@ export default {
                   message: '保存成功',
                   type: 'success'
                 }); 
+                this.reload();
               } else {
                 this.$message({
                     message: res.data.msg,
@@ -169,22 +170,38 @@ export default {
       zt(row,status){
         Modifyadministratorstatus({  
           id: row.id,
-          status: this.statusval
         }).then(res => {
+          console.log(JSON.stringify(res))
           if(res.flag == 0){
             this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                }); 
-                this.statusval=!this.statusval;
+              message: res.data.msg,
+              type: 'success'
+            }); 
           }else{
             this.$message({
               message: res.data.msg,
               type: 'error'
             }); 
-            this.statusval=!this.statusval;
+            row.status=!status;
           }
         });
+      },
+      search(){
+        Getadministratorlist({  
+          type: '2',
+          value: this.input                                               
+        }).then(res => {
+            if(res.flag == 0){    
+                for (const key in res.data) {
+                  if (res.data[key].status=="0") {
+                    res.data[key].status=true;
+                  }else{
+                    res.data[key].status=false
+                  }
+                }
+                this.tableData=res.data;
+            } 
+        })
       }
     },
     mounted(){

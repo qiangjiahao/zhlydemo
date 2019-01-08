@@ -58,6 +58,7 @@ export default {
         }
     },
     mounted(){
+        console.log(this.title)
         if(this.title=="密码账号"){
             this.mnxg=true;
         }

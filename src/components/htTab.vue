@@ -21,7 +21,7 @@
   </el-table>
 </template>
 <script>
-import { contractlist } from '@/axios/api' //合同对话框房源列表
+import { contractlist } from '@/axios/api' //获取合同列表
 
 import httabDialog from '@/components/hetongAdmin/httabDialog'
 
@@ -35,15 +35,26 @@ export default {
           tableData3: [],
         }
     },
+    props:{
+        tablelists:{
+            type: Array,
+            required: true
+        }
+    },
     methods: {
     },
+    watch:{
+        tablelists(val,oldval){
+                this.tableData3=val;             
+        }
+    },
     mounted(){
-      contractlist({                         
-      }).then(res => {
-          if(res.flag == 0){ 
-              this.tableData3=res.data;
-          } 
-      }) 
+        contractlist({                         
+        }).then(res => {
+            if(res.flag == 0){ 
+                this.tableData3=res.data;
+            } 
+        }) 
     }
 }
 </script>

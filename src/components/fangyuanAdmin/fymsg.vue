@@ -1,6 +1,6 @@
 <template>
     <div class="scroll" style="overflow-y: scroll;height: 100%;">      
-        <el-menu class="el-menu-vertical-demo" background-color="#fff" text-color="rgba(0,0,0,.85)" active-background-color="#fff" :unique-opened="true" @open="aaa"> 
+        <el-menu class="el-menu-vertical-demo" background-color="#fff" text-color="rgba(0,0,0,.85)" active-background-color="#fff" :unique-opened="true" @open="aaa" :default-openeds="ooo"> 
             <el-submenu v-for="item in lydateils" :index="item.id" :key="item.id">
                 <template slot="title">
                     <div style="position: relative;">
@@ -17,7 +17,7 @@
                         <el-tab-pane label="可招商" name="first" >
                             <el-checkbox-group v-model="checkList">
                                 <div class="checkli" v-for="(item,index) in kzs" :key="index" >
-                                    <el-checkbox :label="item.id" :value="item.id" @change="sl(index)">
+                                    <el-checkbox :label="item.id" :value="item.id" @change="sl(item.id)">
                                         <span style="display:inline-block;width:28%;text-align: center;">{{item.level_name}}</span>
                                         <span style="display:inline-block;width:22%;text-align: center;">{{item.room_number}}室</span>
                                         <span style="display:inline-block;width:46%;text-align: right;">{{item.area}}m²</span>
@@ -26,10 +26,22 @@
                             </el-checkbox-group>
                         </el-tab-pane>
                         <el-tab-pane label="已租" name="second" >
-                            
+                            <ul>
+                                <li v-for="(item,index) in kzspart" :key="index" class="checkli checkli02">
+                                    <span>{{item.level_name}}</span>
+                                    <span>{{item.room_number}}室</span>
+                                    <span>{{item.area}}m²</span>
+                                </li>
+                            </ul>
                         </el-tab-pane>
                         <el-tab-pane label="所有房源" name="third" >
-                            
+                            <ul>
+                                <li v-for="(item,index) in kzsall" :key="index" class="checkli checkli02">
+                                    <span>{{item.level_name}}</span>
+                                    <span>{{item.room_number}}室</span>
+                                    <span>{{item.area}}m²</span>
+                                </li>
+                            </ul>
                         </el-tab-pane>
                     </el-tabs>
                 </el-menu-item-group>                                     
@@ -44,13 +56,28 @@ import { housinglist } from '@/axios/api' //合同对话框房源列表
 
 export default {
     name: 'fymsg',
-    data(){
+    data(){ 
         return{
             activeName2: 'first',
             checkList: [],
             kzs:[],
+            kzspart:[],
+            kzsall:[],
             lydateils: [],
-            bbb: ''
+            bbb: '',
+            ooo: [],
+            bid: '32'
+        }
+    },
+    props:{
+        fyulxxid:{
+            type: Array,
+            required: true
+        }
+    },
+    watch:{
+        fyulxxid(val,oldval){
+            this.checkList=val;
         }
     },
     methods:{
@@ -64,13 +91,19 @@ export default {
             // 已经找到对应的提示数字div，数字长度显示不上去
         },
         aaa(index){
-            this.checkList = [];
             this.bbb=index;
             housinglist({  
             id: '['+ this.bbb +']'         
             }).then(res => {
                 if(res.flag == 0){ 
-                    this.kzs=res.data;
+                    this.kzsall = res.data;
+                    for (const key in this.kzsall) {
+                        if (this.kzsall[key].let_type==0) {
+                            this.kzs.push(this.kzsall[key])    
+                        }else{
+                            this.kzspart.push(this.kzsall[key])
+                        }
+                    }
                 } 
             });         
         }   
@@ -79,9 +112,9 @@ export default {
         buildinglist({                         
         }).then(res => {
             if(res.flag == 0){ 
-                this.lydateils=res.data;           
+                this.lydateils=res.data;       
             } 
-        }) 
+        });
     } 
 }
 </script>
@@ -146,6 +179,14 @@ export default {
 }
 .scroll .el-menu-vertical-demo .el-submenu .el-tabs .checkli .el-checkbox .el-checkbox__label{
     width: 98%;
+}
+.scroll .el-menu-vertical-demo .el-submenu .el-tabs .checkli02{
+    width: 100%;
+    font-size: 14px;
+    height: 34px;
+    line-height: 34px;
+    justify-content: space-between;
+    padding: 0 30px;
 }
 </style>
 

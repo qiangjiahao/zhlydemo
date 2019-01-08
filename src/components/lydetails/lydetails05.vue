@@ -8,12 +8,14 @@
  is 特性动态绑定子组件
  keep-alive 将切换出去的组件保留在内存中 -->
 <htList :is="currentTab" keep-alive></htList>
-<el-button icon="el-icon-plus" class="btnHt">合同</el-button>
+<el-button icon="el-icon-plus" class="btnHt" plain @click="open()">合同</el-button>
+<htDialog v-if="openOrderVisible" :visible.sync="openOrderVisible"></htDialog>
 </div>
 </template>
 <script>
 
 // 引入子组件
+import htDialog from '@/components/hetongAdmin/htDialog';
 import htList from '../../components/ht-list';
 import htGd from '../../components/htGd';
 
@@ -22,18 +24,22 @@ export default {
       data() {
       return {
        activeIndex: '1',
-       currentTab:'htList'
+       currentTab:'htList',
+       openOrderVisible: false
       };
     },
      components: {  // 声明子组件
-            htList,htGd
+            htList,htGd,htDialog
         },
     methods: {
-      handleSelect(key, keyPath) {
-        this.activeIndex = key
-      },
+        handleSelect(key, keyPath) {
+            this.activeIndex = key
+        },
        toggleTab: function(tab) {
             this.currentTab = tab;    
+        },
+        open(){
+            this.openOrderVisible= true;
         }
     }
 }

@@ -26,12 +26,12 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="http://dev.360yibao.co/builadmin/ucenter/upload"
+                action="http://dev.360yibao.cn/builadmin/ucenter/upload"
                 accept=".docx"
-                :limit=1
+                :limit=2
                 :auto-upload="false"
                 :on-success="sccg"
-                :on-exceed="aaa">
+                :on-change="aaa">
                 <el-button slot="trigger" size="small" type="primary">选取文件</el-button>  
                 <div slot="tip" class="el-upload__tip" style="font-size:16px;">文件只能上传docx格式文件</div>
             </el-upload>   
@@ -98,11 +98,14 @@ export default {
             }
             document.body.removeChild(input)
         },
-        aaa(files, fileList){
-            this.$message({
-                message: '只能上传一个合同模板',
-                type: 'warning'
-            });
+        aaa(files, fileList){ 
+            if(fileList.length>=2){     
+                fileList.splice(0,1); 
+            } 
+            // this.$message({
+            //     message: '请先清除列表,在重新选取文件',
+            //     type: 'warning'
+            // });
         },
         sccg(res, file, fileList){
             if(res.flag==0){
@@ -111,6 +114,11 @@ export default {
                     type: 'success'
                 });
                 this.reload();
+            }else{
+                this.$message({
+                    message: res.data.msg,
+                    type: 'error'
+                });
             }
         }
     }
@@ -127,6 +135,10 @@ export default {
     font-weight: 500;
     color: #1d2b3b;
     border-bottom: 1px solid #e9e9e9;
+       display: flex;
+       flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .htmldialog .el-dialog__header .el-dialog__headerbtn{
     top: 14px;

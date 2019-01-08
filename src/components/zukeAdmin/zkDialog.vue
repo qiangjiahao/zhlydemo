@@ -275,6 +275,7 @@ export default {
                 that.cities=res.data;
             } 
         });     
+        console.log(this.$store.state.dateilsid)
         if(this.$store.state.dateilsid !== 0){
             this.title="编辑租客";
             getonecustomer({
@@ -318,7 +319,7 @@ export default {
                     this.ruleForm.checkboxGroup1=arr;
                 } 
             })
-        } 
+        }
     },
     methods:{
         modalClose(){
@@ -379,8 +380,8 @@ export default {
                                     message: res.data.msg,
                                     type: 'success'
                                 });                        
-                                this.$emit('update:visible', false);
                                 this.reload();
+                                this.$store.commit('ADD_DATEILSID',0); 
                             } else{
                                 this.$message({
                                     message: res.data.msg,

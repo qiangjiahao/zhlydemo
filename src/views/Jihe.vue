@@ -24,8 +24,8 @@ export default {
      },
         data() {
       return {
-        activeIndex:'/louyuAdmin',
-        List_nav:[
+        activeIndex:'/louyuAdmin', 
+        List_nav:[ 
             {name:'/louyuAdmin',navItem:'楼宇管理'},
             {name:'/fangyuanAdmin',navItem:'房源管理'},
             {name:'/Zs',navItem:'招商管理'},

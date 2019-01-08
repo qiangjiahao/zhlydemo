@@ -28,6 +28,9 @@ export const industry = params => post ('/builadmin/customer/industry?a=getlist'
 export const customertags = params => get ('/builadmin/customer/label?a=getlist',params) //获取客户标签
 export const getonecustomer = params => post ('/builadmin/customer/index?a=getone',params) //编辑租客详情
 export const editcustomer = params => post ('/builadmin/customer/index?a=edit',params) //再次编辑租客详情对话框
+export const Obtaintenantbusinessinformation = params => post ('/builadmin/customer/Icinfo?a=getlist',params) //获取租客工商信息
+
+
 //合同模块
 export const buildinglist = params => get ('/builadmin/buil/list',params) //合同对话框楼宇列表
 export const housinglist = params => get ('/builadmin/room/list',params) //合同对话框房源列表
@@ -35,9 +38,10 @@ export const addcontract = params => post ('/builadmin/contract/index?a=add',par
 export const obtaintenant = params => get ('/builadmin/customer/index?a=list',params) //获取租客
 export const accessindustry = params => get ('/builadmin/customer/industry?a=list',params) //获取行业
 export const obtaincontractlabel = params => get ('/builadmin/contract/label?a=getlist',params) //获取合同标签
-export const contractlist = params => get ('/builadmin/contract/index?a=getlist',params) //获取合同列表
+export const contractlist = params => post ('/builadmin/contract/index?a=getlist',params) //获取合同列表
 export const contractdetails = params => post ('/builadmin/contract/index?a=getone',params) //获取合同详情
 export const editcontract = params => post ('/builadmin/contract/index?a=edit',params) //编辑合同
+
 //个人中心
 export const addadmin = params => post ('/builadmin/ucenter/index?a=add',params) //添加管理员
 export const Getadministratorlist = params => post ('/builadmin/ucenter/index?a=getlist',params) //获取管理员列表

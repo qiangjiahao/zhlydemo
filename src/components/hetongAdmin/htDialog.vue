@@ -147,7 +147,7 @@
                             </li>
                         </ul>  
                         <keep-alive>
-                            <fymsg v-if="isfymsg" @fyxx="fyxx" :bjid="bjid"></fymsg>
+                            <fymsg v-if="isfymsg" @fyxx="fyxx" :fyulxxid="fyulxxid"></fymsg>
                         </keep-alive>
                     </div>
                 </div>
@@ -230,8 +230,7 @@ export default {
             id02: null,
             zhyq: [],
             fyulxx: [],
-            fyulxxid: [],
-            bjid: 0
+            fyulxxid: []
         }
     },
     methods:{
@@ -242,7 +241,7 @@ export default {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
             cb(results);
-            }, 500 * Math.random());
+            }, 100 * Math.random());
         },
         querySearchAsync02(queryString, cb) {
             var restaurants02 = this.restaurants02;
@@ -251,7 +250,7 @@ export default {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
             cb(results);
-            }, 500 * Math.random());
+            }, 100 * Math.random());
         },
         createStateFilter(queryString) {
             return (state) => {

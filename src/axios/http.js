@@ -9,7 +9,7 @@ import { Loading, Message } from 'element-ui'
 // import store from '../store/index'
  
 // 环境的切换 
-    axios.defaults.baseURL = 'http://dev.xibei.co';
+    axios.defaults.baseURL = 'http://dev.360yibao.cn';
  
 // 请求超时时间
 axios.defaults.timeout = 3000;
